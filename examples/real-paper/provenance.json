@@ -1,0 +1,67 @@
+{
+  "schema": "review16.peerread-source-audit.v1",
+  "source_commit": "9bb37751781a900cee9e74ec3105997732c8e8e5",
+  "retrieved_at": "2026-09-17T04:57:16.884442+00:00",
+  "paper_id": "673",
+  "split": "dev",
+  "source_repository": "https://github.com/allenai/PeerRead",
+  "submission_version_verified": false,
+  "review_phase": null,
+  "anchor_eligible": false,
+  "limitations": [
+    "Archive presence does not establish manuscript/review-round alignment.",
+    "Dates alone do not distinguish initial and revised recommendations.",
+    "Raw reviews and metadata contain outcomes: keep out of reviewer contexts.",
+    "Third-party papers/reviews retain their own rights; not covered by Review16 MIT."
+  ],
+  "files": [
+    {
+      "path": "reviews.private.json",
+      "url": "https://raw.githubusercontent.com/allenai/PeerRead/9bb37751781a900cee9e74ec3105997732c8e8e5/data/iclr_2017/dev/reviews_raw/673.json",
+      "sha256": "45a836033226f13dbf46c486546a6e19ee3797396ad7a9529b4d9b7447b73888",
+      "bytes": 7458
+    },
+    {
+      "path": "paper.pdf",
+      "url": "https://raw.githubusercontent.com/allenai/PeerRead/9bb37751781a900cee9e74ec3105997732c8e8e5/data/iclr_2017/dev/pdfs/673.pdf",
+      "sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+      "bytes": 198613
+    }
+  ],
+  "title": "Hierarchical Memory Networks",
+  "historical_recommendations": [
+    5,
+    5,
+    4
+  ],
+  "historical_recommendation_dates": [
+    "20 Dec 2016",
+    "19 Dec 2016",
+    "17 Dec 2016"
+  ],
+  "selection": "Convenience case selected from three inspected PeerRead development-set candidates; coordinator had read historical outcomes before reviewer dispatch. Not a random or held-out benchmark.",
+  "panel_outcome_access": "Fresh reviewer contexts received only their own persona prompt, venue rubric and manuscript artifacts. No human reviews or outcome labels were supplied. Procedural isolation; no filesystem ACL sandbox.",
+  "calibration": {
+    "mode": "no_anchors",
+    "reason": "Archive lacks the audited manuscript-revision/review-phase alignment required by the ranking contract.",
+    "sample_rank": null,
+    "acceptance_probability": null
+  },
+  "openreview_attempt": {
+    "forum": "AC5n7xHuR1",
+    "api": "https://api2.openreview.net",
+    "http_status": 403,
+    "date": "2026-09-17"
+  },
+  "original_forum_url": "https://openreview.net/forum?id=BJ0Ee8cxx",
+  "additional_openreview_attempts": [
+    {
+      "url": "https://api.openreview.net/notes?id=BJ0Ee8cxx",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "url": "https://api.openreview.net/notes?forum=BJ0Ee8cxx&limit=100",
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ]
+}

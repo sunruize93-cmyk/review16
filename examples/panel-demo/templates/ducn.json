@@ -1,0 +1,27 @@
+{
+  "run_id": "00000000-0000-4000-8000-000000000016",
+  "manuscript_sha256": "06ac35c9329e946c10591610751ad633bac6931bc728c45d505c506451524697",
+  "persona_id": "ducn",
+  "model": null,
+  "model_family": null,
+  "status": "insufficient_evidence",
+  "score_before": null,
+  "score_after": null,
+  "domain_fit": null,
+  "confidence": null,
+  "dimensions": {
+    "correctness": null,
+    "novelty": null,
+    "evidence": null,
+    "significance": null,
+    "reproducibility": null,
+    "clarity": null
+  },
+  "reading_coverage": [],
+  "score_reason": "",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": true,
+  "evidence": [],
+  "challenges": []
+}

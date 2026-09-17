@@ -1,0 +1,40 @@
+{
+  "schema": "review16.anchor-corpus.v1",
+  "synthetic": true,
+  "venue": "SYNTHETIC Demo Conference — no real venue",
+  "year": 2026,
+  "track": "SYNTHETIC toy algorithms",
+  "review_phase": "initial-review-demo",
+  "score_scale": {
+    "name": "SYNTHETIC 1–5 demo scale",
+    "min": 1,
+    "max": 5,
+    "higher_is_better": true,
+    "values": [1, 2, 3, 4, 5]
+  },
+  "bands": [
+    {"id": "low", "lower": 1, "upper": 2.5},
+    {"id": "middle", "lower": 2.5, "upper": 3.5},
+    {"id": "high", "lower": 3.5, "upper": 5}
+  ],
+  "papers": [
+    {
+      "id": "synthetic-anchor-a",
+      "blinded_text_path": "texts/anchor-a.synthetic.txt",
+      "blinding_checked": true,
+      "submission_version_verified": true,
+      "material_level": "fulltext",
+      "human_scores": [1, 2],
+      "provenance": "Entirely synthetic fixture; no real human review, submission, or outcome."
+    },
+    {
+      "id": "synthetic-anchor-b",
+      "blinded_text_path": "texts/anchor-b.synthetic.txt",
+      "blinding_checked": true,
+      "submission_version_verified": true,
+      "material_level": "fulltext",
+      "human_scores": [4, 5],
+      "provenance": "Entirely synthetic fixture; no real human review, submission, or outcome."
+    }
+  ]
+}

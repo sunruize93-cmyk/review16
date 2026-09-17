@@ -1,0 +1,19 @@
+{
+  "venue": "NeurIPS",
+  "year": 2025,
+  "track": "Main conference",
+  "rubric_source": "https://neurips.cc/Conferences/2025/ReviewerGuidelines",
+  "retrieved_at": "2026-09-17",
+  "provisional": false,
+  "score_scale": {
+    "values": [1, 2, 3, 4, 5, 6],
+    "labels": {
+      "1": "Strong Reject",
+      "2": "Reject",
+      "3": "Borderline reject",
+      "4": "Borderline accept",
+      "5": "Accept",
+      "6": "Strong Accept"
+    }
+  }
+}

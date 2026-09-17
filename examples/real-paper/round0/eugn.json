@@ -1,0 +1,97 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eugn",
+  "model": "GPT-6 family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 4,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read manuscript.txt in full and inspected rendered PDF pages 1–10, including Abstract, Sections 1–6, Equations 1–8, Figure 1, Tables 1–2 and references.",
+    "No supplement, code, raw runs or external cited papers were inspected; implementation and external priority claims remain unverified. Assessment uses the supplied retrospective ICLR 2017 rubric and contemporary problem framing.",
+    "Competence covers memory-network objectives, fixed-vector approximate retrieval and QA evaluation. No prior review, historical outcome or other panel review was consulted."
+  ],
+  "score_reason": "Marginally below the acceptance threshold. Learning queries against a fixed indexed memory with supervised candidate inclusion is a useful and plausible research direction, and exact top-K selection improves this controlled QA model. However, the central new practical capability is scalable approximate training and inference: its reported 5X speedup is supported by fact-access counts rather than measured end-to-end performance, while the best approximate model loses 6.4 accuracy points. The single restricted memory setting and missing cost–accuracy curve leave insufficient evidence that the proposed scalable version offers a useful operating point. I would reassess favorably with timed scaling evidence or an equally concrete demonstration of utility under the stated access constraints.",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "eugn-s1",
+      "kind": "strength",
+      "claim": "Top-K-conditioned learning is a credible useful alternative to full soft attention within the tested fixed-memory QA model.",
+      "location": "Sections 3 and 5.2–5.4, pp. 4 and 7; Table 1 and Figure 1, p. 8.",
+      "observation": "The correct fact is inserted during training, the query embeddings receive supervised gradients through the selected softmax, and exact 10-MIPS reaches 62.2% test accuracy versus 59.5% for full softmax. Figure 1 shows comparable epoch-scale convergence. The authors explicitly acknowledge that exact search still scans the full memory.",
+      "consequence": "This supports the feasibility of training with sharply restricted candidate normalization and a meaningful 2.7-point gain, even before computational acceleration is established.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Reported results on the same bag-of-words query model with frozen TransE fact embeddings; no claim of repeated-run significance or exact-search runtime gain.",
+      "remedy": "",
+      "would_change_judgment": "This is a principal reason to view the work as promising rather than technically unconvincing."
+    },
+    {
+      "id": "eugn-s2",
+      "kind": "strength",
+      "claim": "The comparison of approximate readers and cluster-selection policies yields an actionable research result.",
+      "location": "Section 5.5, pp. 8–9; Tables 1–2.",
+      "observation": "At approximately matched fact-access budgets, clustering scores 51.5%, versus 40.2% for WTA-Hash and 32.4% for PCA-Tree. Combining top clusters with sampled clusters reaches 53.1% with 2000 clusters in 26 epochs, compared with 51.5% in 22 epochs for top clusters alone.",
+      "consequence": "The experiment establishes that the choice of search structure and training candidate exploration materially affects learning, offering a concrete direction for improving retrieval-based memory training.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "These are reported point estimates in one task, with approximate cost matching rather than a verified runtime comparison; external priority is not independently established.",
+      "remedy": "",
+      "would_change_judgment": "Preserving this controlled comparison is important to the contribution; robust measurements could make its practical value decisive."
+    },
+    {
+      "id": "eugn-w1",
+      "kind": "weakness",
+      "claim": "The evidence does not establish the claimed practical speedup or scaling of approximate training and inference.",
+      "location": "Section 5.5 final paragraphs, p. 8; Table 2, p. 9; scalability claims in Sections 1 and 6.",
+      "observation": "The reported 5X speedup is tied to accessing approximately 20,000 facts per query instead of 108,442. No measured latency, training duration, hardware, index-building cost, or memory-size scaling curve is supplied. Table 2 also shows that convergence epochs vary from 16 to 68 across approximate strategies.",
+      "consequence": "Fact-access reduction is useful evidence of reduced candidate work, but it does not quantify the advertised training or inference speedup once lookup overhead, batching and differing convergence time are included. This is central to the paper’s claimed new capability.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Insufficient empirical substantiation of practical speed, not evidence that approximate MIPS cannot be faster or that the method is incorrect.",
+      "remedy": "Report wall-clock inference latency and total training time with hardware and index costs, across several memory sizes and candidate budgets, against the same full-softmax implementation.",
+      "would_change_judgment": "Yes. A useful measured cost–accuracy frontier and favorable scaling could move the review above threshold."
+    },
+    {
+      "id": "eugn-w2",
+      "kind": "weakness",
+      "claim": "The utility and generality of the accelerated method remain substantially less demonstrated than its formulation.",
+      "location": "Sections 3, 5.1–5.3 and 5.5; Tables 1–2.",
+      "observation": "All experiments use the restricted SimpleQuestions memory of 108,442 candidates, a bag-of-words reader and fixed TransE vectors with supporting-fact supervision. The 10M/12M fact settings motivating scalability are excluded. The best approximate result is 53.1%, versus 59.5% full softmax and 62.2% exact 10-MIPS; no accuracy-versus-budget sweep or second setting is shown.",
+      "consequence": "The formulation can operate on other vector memories, but the evidence does not yet identify when its 6.4-point accuracy loss is worthwhile or demonstrate the claimed advantage when lexical filtering is unavailable.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The authors explicitly disclose the restricted task and do not claim state-of-the-art QA. This objection concerns support for the general scalable-memory contribution, not failure to beat a richer QA system or a demand for modern baselines.",
+      "remedy": "Demonstrate a favorable operating point by varying search budgets and memory size, ideally including a larger fixed knowledge base or a setting that actually lacks usable lexical overlap. State explicitly the fixed-memory and supporting-fact-supervision conditions.",
+      "would_change_judgment": "Yes, especially if an application-relevant accuracy target is reached at a measured lower cost."
+    },
+    {
+      "id": "eugn-w3",
+      "kind": "weakness",
+      "claim": "The approximate-search comparisons cannot be reproduced precisely from the reported settings.",
+      "location": "Sections 3.1, 5.3 and 5.5, pp. 5 and 7–8.",
+      "observation": "The paper gives optimizer, batch size, embedding sizes and cluster counts, but does not give numerical augmentation parameters U and m, selected top/sample cluster counts, hash settings or tree settings for the reported matched-speed configurations. Tables provide point estimates without seed variability.",
+      "consequence": "Readers can implement the general scheme but cannot confidently reconstruct the matched-budget comparisons or determine whether small policy gains are stable.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility and uncertainty of the submitted experimental record; not a claim that unreleased code is defective or that all point-estimate improvements are spurious.",
+      "remedy": "Provide the actual search configurations, construction and sampling details, and repeated-run results for the key comparisons.",
+      "would_change_judgment": "Alone unlikely; combined with measured utility it would increase confidence in acceptance."
+    }
+  ],
+  "challenges": []
+}

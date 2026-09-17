@@ -1,0 +1,127 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "ducn",
+  "model": "GPT-6-family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 3,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read manuscript.txt in full and visually inspected all ten rendered PDF pages, page-01.png through page-10.png, including Sections 1-6, Equations 1-8, model/objective, Tables 1-2, Figure 1, and references. Visually recovered extraction formatting and checked plotted epoch axis.",
+    "Verified manuscript.pdf SHA-256 against the frozen task binding. No supplementary material, source code, or raw measurements was supplied within the authorized materials; their absence is not treated as proof they do not exist. No external papers, historical reviews, source directories, other reviewer outputs, or coordinator judgments were consulted.",
+    "Assessment is retrospective to ICLR 2017 and confined to neural memory retrieval, approximate search, and supervised factoid QA. Historical novelty beyond the manuscript discussion has not been independently verified. Fresh task context was used; general model pretraining cannot be excluded, and the precise deployment identity is unavailable."
+  ],
+  "score_reason": "5: Marginally below acceptance threshold under the supplied ICLR 2017 rubric. The paper offers a coherent and potentially useful way to train a query encoder against a fixed indexed memory, and the exact-search and approximate-search comparisons establish an interesting research direction. I do not require a theorem or state-of-the-art QA accuracy for this contribution. However, the stated contribution is scalable learning and inference, while the evidence is predominantly a candidate-count reduction at one restricted memory size. The costs of retrieval, batching, preprocessing, and differing training durations are not accounted for, and the best approximate result loses 6.4 accuracy points against full softmax. Thus the useful speed-accuracy operating point, which would justify that loss, is not established. Under this contextual utility perspective, concrete timing and scaling evidence is needed to put the exploratory construction above threshold. This is not a finding of a fatal algorithmic error or an externally verified novelty failure.",
+  "change_reason": "Unchanged after the single cross-examination response. Both the fixed-memory supervised constructive strength and the missing end-to-end scalability evidence were upheld within their original scopes. No new measurement, factual correction, or demonstrated failure was introduced. The score remains 5 because the useful measured speed-accuracy operating point remains unestablished, not because the method is known to lack acceleration.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "ducn-e1",
+      "kind": "strength",
+      "claim": "The proposed learning procedure is coherent for supervised access to a fixed external memory and makes an important feasibility assumption explicit.",
+      "location": "Sections 2-3, pp. 3-4; Equations 3-4; Section 5.2, p. 7.",
+      "observation": "The query encoder retrieves a restricted candidate set, includes the known supporting fact during training, and optimizes its restricted-softmax likelihood. Keeping memory embeddings fixed makes a reusable approximate-search index compatible with learning the query representation. The manuscript explicitly recognizes that updating memory embeddings would invalidate the fixed-index assumption.",
+      "consequence": "This establishes a credible constructive route to learning query-dependent retrieval without differentiating through the discrete search decisions or requiring reinforcement learning in this supervised setting.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Fixed fact embeddings, observed supporting-fact labels, and a query encoder trained for single-fact retrieval; not a result for unsupervised support discovery or changing memories.",
+      "remedy": "",
+      "would_change_judgment": "This supports the positive novelty and correctness assessments; showing that the reported experiments violate the fixed-memory or supervision assumptions would weaken them."
+    },
+    {
+      "id": "ducn-e2",
+      "kind": "strength",
+      "claim": "The experiments provide informative evidence that restricted normalization is viable and that approximate-retrieval design matters during learning.",
+      "location": "Section 5.4 and Table 1/Figure 1, pp. 7-8; Section 5.5 and Table 2, pp. 8-9.",
+      "observation": "Exact 10-MIPS reaches 62.2% versus 59.5% for full softmax, with average training softmax size 1,290 versus 108,442. Figure 1 shows comparable convergence in epochs. At roughly 20,000 candidate evaluations, clustering reaches 51.5%, versus 40.2% for WTA-Hash and 32.4% for PCA-Tree. Adding sampled clusters to top clusters reaches 53.1% with 2,000 clusters versus 51.5% for top clusters alone.",
+      "consequence": "The controlled simple architecture makes these comparisons useful initial evidence about train-time retrieval choices, beyond merely plugging an approximate index into an already trained predictor.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Reported single-run results on this static SimpleQuestions memory. Epoch convergence is not elapsed-time convergence, and these tables do not establish significance across random seeds.",
+      "remedy": "",
+      "would_change_judgment": "Replication showing these differences are stable would strengthen the contribution; a collapse under matched tuning would materially weaken it."
+    },
+    {
+      "id": "ducn-e3",
+      "kind": "weakness",
+      "claim": "The central practical scalability claim lacks an end-to-end computational demonstration.",
+      "location": "Section 3.1, p. 5; Section 5.5, p. 8; Figure 1, p. 8; Table 2, p. 9.",
+      "observation": "Section 5.5 infers a 5X speedup from approximately 20,000 accessed facts versus 108,442 total facts, but supplies no wall-clock training or inference timings, hardware specification, index-construction cost, or size-scaling curve. Figure 1 uses epochs. Table 2 reports between 16 and 68 epochs for different approximate strategies. The Section 3.1 statement that a read requires only centroid dot products omits the subsequent candidate scoring evident in the method and experiments.",
+      "consequence": "Fewer scored facts can plausibly save computation, but the paper does not establish the total training or inference speedup after search and batching overhead or differing convergence lengths. That missing measurement affects the primary reason to accept the accuracy loss.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The criticism concerns demonstrated system-level benefit, not denial that approximate search can reduce candidate-scoring work.",
+      "remedy": "Report matched-hardware elapsed time per epoch, time to a specified validation quality, inference latency, and index preparation, with a modest sweep over memory size; distinguish those measurements from candidate-count ratios.",
+      "would_change_judgment": "A reproducible end-to-end speed-accuracy improvement at larger memory sizes could move the score above threshold."
+    },
+    {
+      "id": "ducn-e4",
+      "kind": "weakness",
+      "claim": "The experiment does not yet establish the proposed method as a useful alternative in the large-external-knowledge-base setting that motivates it.",
+      "location": "Section 5.1, p. 6; Tables 1-2, pp. 8-9; Section 4, p. 6.",
+      "observation": "The study uses 108,442 SimpleQuestions facts rather than the cited 10-12 million-fact Freebase settings. It acknowledges that keyword filtering is efficient on this dataset because source-entity words match. The best approximate result is 53.1%, 6.4 percentage points below full softmax and 9.1 below exact 10-MIPS; no matched-cost keyword or simple sampled-negative comparison is provided.",
+      "consequence": "The results establish a promising restricted-memory study, but leave unresolved where the learned-search approach provides meaningful practical utility over the realistic alternatives described in the paper. Broad modality-general motivation is not directly tested.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "This does not demand state-of-the-art QA results, modern baselines, or every modality; it asks for one convincing operating regime aligned with the stated motivation.",
+      "remedy": "Demonstrate the speed-accuracy tradeoff at a larger static memory or in a controlled setting where lexical filtering is unsuitable, and include a contemporaneous matched-budget simple alternative.",
+      "would_change_judgment": "A convincing regime where the method preserves useful accuracy while providing measured savings would materially raise the utility and significance assessment."
+    },
+    {
+      "id": "ducn-e5",
+      "kind": "weakness",
+      "claim": "The proposed explanations in terms of stronger gradients and reduced approximation bias are plausible interpretations, not established mechanisms.",
+      "location": "Section 3, p. 4, gradient discussion; Section 3.1, p. 5, three bias-reduction strategies; Section 5.4, p. 7.",
+      "observation": "For the cross-entropy objective the score gradient is p_j minus the target indicator, so the correct fact has a large gradient even when its retrieval score is low; the method separately handles this by always inserting it. The paper supplies no quantitative bias definition, gradient comparison to full softmax, or ablation separating batch-union candidate sharing from the top-K choice. Table 2 measures accuracy rather than gradient bias.",
+      "consequence": "The empirical improvements support using the construction in this setting, but do not establish that gradient concentration or bias reduction is the cause, nor the recommendation to substitute a K-MIPS layer whenever possible.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "This is an interpretation and scope limitation, not a proof that the training rule is invalid. No unbiased-gradient guarantee is required for an empirical method.",
+      "remedy": "Label these explanations as hypotheses and narrow the general recommendation, or directly measure gradient discrepancies and isolate candidate-sharing effects.",
+      "would_change_judgment": "Mainly changes confidence in the mechanism and clarity; alone it would not determine acceptance."
+    },
+    {
+      "id": "ducn-e6",
+      "kind": "weakness",
+      "claim": "Important search and data-construction settings are insufficiently specified for reproducing the reported tradeoffs.",
+      "location": "Section 3.1, p. 5; Sections 5.3 and 5.5, pp. 7-8.",
+      "observation": "The paper introduces transformation parameters U and m, hash parameters n/p/k, cluster selection and sampling, and artificial questions, but does not give the actual transformation/hash settings, full candidate-allocation choices, or the construction details for artificial questions. It reports optimizer, batch size, embeddings and stopping rule, which help, but not enough to reconstruct the compared retrieval budgets.",
+      "consequence": "Independent implementation can follow the main idea but cannot reliably reproduce the particular accuracy and cost comparisons or check tuning parity across retrieval families.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Limited to specification in the provided frozen manuscript; no claim is made that code or a supplement was never available elsewhere.",
+      "remedy": "Provide a compact configuration table and precise candidate-generation and artificial-question procedures, including index construction and how candidate budgets are matched.",
+      "would_change_judgment": "Would improve reproducibility confidence; paired with timing evidence it would materially strengthen the empirical case."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "eigr",
+      "evidence_id": "ducn-e1",
+      "type": "scope",
+      "challenge": "Confirmed within your stated supervised, fixed-memory scope. Equations 3–4 and the gold-fact insertion paragraph on p. 4 define a restricted softmax whose selected logits can train the query encoder while the index remains fixed; Section 5.2 on p. 7 instantiates this with fixed TransE facts and learned question embeddings. Table 1 and Figure 1 on p. 8 further support empirical feasibility through 62.2% for exact 10-MIPS versus 59.5% for full softmax and similar epoch convergence. This supports a coherent constructive route, but does not establish optimization of the full-softmax objective, unbiased gradients through approximate selection, or learning without supporting-fact supervision. Your scope already prevents those extrapolations. The constructive value is sound; my empirical perspective assigns less weight to it until the approximate reader's practical savings are measured.",
+      "response": "Upheld within the original scope. Equations 3-4 and the gold-fact insertion on p. 4 define a supervised, selected-set objective, and Section 5.2 (p. 7) keeps TransE memory fixed while learning question embeddings. I do not infer an unbiased estimator of the full-softmax gradient or learning without support labels. The exact-reader results in Table 1/Figure 1 support empirical feasibility, while the positive construction itself does not establish approximate-search speed. The remaining difference is the weight given to constructive feasibility; no factual correction or scope expansion is warranted.",
+      "resolution": "upheld"
+    },
+    {
+      "from_persona": "eigr",
+      "evidence_id": "ducn-e3",
+      "type": "factual",
+      "challenge": "Confirmed. Section 5.5 on p. 8 supplies approximately 20,000 accesses and labels this a 5X speedup, whereas Table 1 supplies the 108,442 full-softmax size; no elapsed-time measurements accompany that ratio. Figure 1's horizontal axis is epochs, and Table 2 on p. 9 varies from 16 to 68 convergence epochs. Section 3.1 on p. 5 counts centroid comparisons but selected facts still require scoring under Equation 4 on p. 4. Thus access reduction is established, while end-to-end acceleration after search, batching, and convergence is not. Please preserve your distinction between a missing computational demonstration and evidence against actual speedup: neither the epoch variation nor index overhead proves the method loses its advantage. The requested matched-hardware timing and a modest memory-size sweep directly address the claim without requiring every large-memory regime.",
+      "response": "Upheld with the missing-evidence distinction retained. The approximately 20,000 versus 108,442 access ratio on p. 8 does not supply elapsed training or inference measurements. Equation 4 still scores selected facts, and the differing convergence epochs in Table 2 show that a per-read count cannot alone establish total training cost. These observations identify omitted terms and measurements, not a demonstration that overhead or convergence erases the savings. Matched-hardware timing and a modest scaling sweep would resolve the uncertainty; no requirement for success across all memory regimes is intended.",
+      "resolution": "upheld"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eicn",
+  "model": "GPT-6 family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 6,
+  "score_after": 6,
+  "domain_fit": 4,
+  "confidence": 3,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 3,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read the complete frozen manuscript text, pages 1–10: abstract; Sections 1–6; equations 1–8; model and training details; Tables 1–2; Figure 1; references.",
+    "Visually inspected every supplied page image, page-01.png through page-10.png, with particular attention to equations on pages 4–5, Figure 1 and Table 1 on page 8, and Table 2 on page 9. Verified frozen PDF SHA-256.",
+    "No supplement, code, raw measurements, external cited papers, historical human reviews, or other panel reviews were inspected. Algorithmic and experimental competence covers memory retrieval and QA; historical priority and implementation-level performance remain unverified. Assessment uses the supplied retrospective ICLR 2017 rubric, not present-day baseline expectations.",
+    "Cross-examination: inspected the frozen DUGR opposite review and its two-check incoming package; responded once per check. No other persona reviews or historical human reviews inspected."
+  ],
+  "score_reason": "Marginally above the ICLR 2017 acceptance threshold. The central positive is the reported candidate-budget trend for the combined top-candidate, gold-inclusion, minibatch-union training procedure in a fixed-memory supervised QA model; it does not isolate the cause or establish general superiority or cross-seed reliability. Stochastic cluster coverage also yields useful within-setting accuracy and epoch comparisons. I give these exploratory observations enough weight for a marginal acceptance recommendation. The missing runtime/accuracy frontier, incomplete read-cost accounting, and unmeasured gradient-bias mechanism prevent clear acceptance. Reduced fact scoring is supported; realized time-to-quality gains remain unestablished, not disproved. No decisive correctness failure is established.",
+  "change_reason": "Score remains 6. The cross-examination usefully narrowed the causal reading of the positive and clarified complete cost accounting and common-attainable-target timing. These refine limitations already material to the first-pass judgment; they do not remove the reported exploratory learning phenomena that motivate marginal acceptance.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "eicn-s1",
+      "kind": "strength",
+      "claim": "Exact top-scoring candidate training yields an informative accuracy trend in the deliberately simple QA model.",
+      "location": "Sections 5.2–5.4; Table 1 and Figure 1, pages 7–8.",
+      "observation": "With fixed TransE fact embeddings and learned bag-of-words question embeddings, full softmax scores 59.5%, versus 62.2%, 61.2%, 60.6%, and 59.6% for K=10,50,100,1000. The displayed validation-error curves converge on a similar epoch scale. Actual training sets include minibatch candidate unions; K=10 averages 1290 candidates.",
+      "consequence": "A consistent trend across candidate budgets makes selective normalization an interesting empirical phenomenon, not merely an assertion that fewer candidates cost less.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Reported runs on the restricted SimpleQuestions memory; epoch convergence, not elapsed-time convergence.",
+      "remedy": "",
+      "would_change_judgment": "Evidence that the gain disappears under repeated matched runs would materially weaken the central empirical contribution."
+    },
+    {
+      "id": "eicn-s2",
+      "kind": "strength",
+      "claim": "The approximate-search study exposes a useful interaction between retrieval coverage and learning.",
+      "location": "Section 5.5, Table 1 page 8 and Table 2 page 9.",
+      "observation": "At approximately comparable candidate-access budgets, clustering reaches 51.5%, WTA-Hash 40.2%, and PCA-Tree 32.4%. Adding Sample-K to Top-K raises accuracy from 50.2% to 52.8% for 1000 clusters and from 51.5% to 53.1% for 2000 clusters. Sample-K alone needs 68/63 epochs, while the combination needs 31/26.",
+      "consequence": "The results suggest a concrete research possibility: balancing exploitation and additional cluster coverage can improve approximate-reader training, with convergence cost reported rather than hidden.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The particular three retrieval implementations and two clustering configurations studied; not a universal ranking of indexes or proof of gradient-bias reduction.",
+      "remedy": "",
+      "would_change_judgment": "Matched repeat runs and retrieval-recall diagnostics would strengthen this observation."
+    },
+    {
+      "id": "eicn-w1",
+      "kind": "weakness",
+      "claim": "The main practical scalability claim is supported by reduced memory accesses but not demonstrated as an end-to-end training speedup.",
+      "location": "Sections 3.1 and 5.5, pages 5 and 8; Table 2 page 9.",
+      "observation": "Section 5.5 derives a 5X speedup from roughly 20000 fact accesses versus the 108442 full-softmax entries. No hardware, wall-clock training or query time, index construction time, or increasing-memory-size experiment is reported. Table 2 also shows strategy-dependent convergence epochs. The best approximate accuracy is 53.1%, versus 59.5% for full softmax.",
+      "consequence": "The manuscript establishes a candidate-access/accuracy tradeoff, but the actual time-to-quality benefit and behavior on much larger memories remain uncertain; these are central to its stated motivation.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Empirical systems-performance evidence; this does not refute the computational benefit of accessing fewer facts.",
+      "remedy": "Report elapsed training and inference times including index costs, and one larger-memory condition; distinguish per-step savings from time to convergence.",
+      "would_change_judgment": "A reproducible favorable time-to-quality tradeoff would move the recommendation toward clear acceptance."
+    },
+    {
+      "id": "eicn-w2",
+      "kind": "weakness",
+      "claim": "The explanatory claims about gradient dispersion and approximation bias run ahead of the measurements.",
+      "location": "Section 3 page 4; Section 3.1 page 5; Sections 5.4–5.5 and Tables 1–2.",
+      "observation": "The text attributes improved training to concentrating gradients and says sampling decreases approximation bias. Experiments report accuracy, candidate counts, validation curves, and epochs, but no gradient comparison or retrieval recall. Candidate truncation, compulsory inclusion of the correct fact, and minibatch union jointly change the training objective and negative distribution. No repeated-run variability is reported.",
+      "consequence": "The direction of the empirical effects is useful, but the claimed mechanism and reliability of the small 0.3-point advantage of combined sampling over sampling alone are unresolved. This limits the depth of insight rather than showing the reader is invalid.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Mechanistic interpretation within the fixed-memory supervised model, especially close Table 2 comparisons.",
+      "remedy": "Compare gradients or retrieval recall against exact retrieval on held-out minibatches; isolate minibatch union and sampling, and report repeat-run variability for close comparisons.",
+      "would_change_judgment": "A direct mechanism diagnostic would strengthen the insight contribution; uncertainty that reverses the main accuracy trend would lower it."
+    },
+    {
+      "id": "eicn-w3",
+      "kind": "weakness",
+      "claim": "Important experimental choices for the approximate reader are insufficiently specified for close reproduction.",
+      "location": "Sections 3.1 and 5.3–5.5, pages 5 and 7–8.",
+      "observation": "Adam rate, batch size, embedding size, and stopping rule are given, but the selected U and augmentation m, hash parameters, tree settings, allocation between top and sampled clusters, and exact synthetic-question construction are not specified in the inspected manuscript.",
+      "consequence": "The broad method can be reconstructed, but reproducing the reported method ranking and sampling tradeoff would require additional choices.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility from the supplied manuscript alone; code availability was not checked.",
+      "remedy": "Provide final configurations, data-preparation details, and precise candidate-union/sampling pseudocode.",
+      "would_change_judgment": "Complete configurations would improve confidence but are unlikely alone to change the venue score."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "dugr",
+      "evidence_id": "eicn-s1",
+      "type": "scope",
+      "challenge": "Confirmed: Table 1 (page 8) reports 59.5% for full softmax and 62.2/61.2/60.6/59.6% as K increases, while Figure 1 supports comparable progress measured in epochs. Your restriction to the reported runs and actual minibatch union sizes is sound. The strongest defensible positive is an informative candidate-budget trend in this fixed-memory supervised classifier. Section 3 (page 4) also forces the gold fact into training candidates, and section 5.4 (page 7) pools other queries candidates; hence the result supports this combined training procedure rather than an isolated causal benefit of top-scoring negatives or a generally preferable normalization rule. Can you explicitly retain that distinction when calling the trend the central empirical contribution? Its value as a research direction is a reasonable preference; its reliability across seeds or settings remains unmeasured.",
+      "response": "Agreed; the positive is explicitly restricted to the combined gold-inclusion, minibatch-union, top-candidate procedure described on pages 4 and 7. Table 1 supports its candidate-budget trend, not an isolated causal effect of high-scoring negatives, general preference for truncated normalization, or stability across seeds. This clarification is consistent with eicn-w2, which already identifies those jointly changing factors. I retain the trend as the central exploratory observation in this fixed-memory supervised setting.",
+      "resolution": "narrowed"
+    },
+    {
+      "from_persona": "dugr",
+      "evidence_id": "eicn-w1",
+      "type": "factual",
+      "challenge": "Confirmed: section 5.5 (page 8) links approximately 20000 accessed facts to a 5X speedup but supplies no elapsed-time measurement, while Table 2 (page 9) shows 16-68 epochs across configurations. The concern is additionally supported by section 3.1 (page 5), whose only K dot-products read-cost statement counts centroids but omits scoring selected memory cells required by equation (4), page 4. This omission strengthens your distinction between access reduction and demonstrated end-to-end efficiency. Please keep the conclusion as unestablished time-to-quality rather than an assertion of no speedup: the reported counts are genuine evidence of reduced fact scoring. Also, because 53.1% never reaches the 59.5% full-softmax final accuracy, any time-to-quality comparison must use a common attainable target or report the full runtime/accuracy frontier, rather than merely compare training completion times.",
+      "response": "Agreed and upheld. Reduced selected-fact scoring is supported, but the page 5 centroid-only expression omits the selected-cell scoring needed by equation (4). Neither that count nor Table 2 establishes elapsed-time savings. I do not assert that no speedup exists. A fair time-to-quality comparison must use a shared attainable accuracy target, or present a runtime/accuracy frontier, because the reported approximate endpoint is 53.1% versus 59.5% for the full baseline. That clarification strengthens the recommended measurement without overturning the observed within-setting learning effects.",
+      "resolution": "upheld"
+    }
+  ]
+}

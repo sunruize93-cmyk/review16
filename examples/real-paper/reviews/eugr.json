@@ -1,0 +1,127 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eugr",
+  "model": "GPT-6 family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 4,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 2,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read the complete manuscript text and visually inspected all ten supplied page images, including equations (1)-(8), Figure 1 and Tables 1-2; verified the frozen PDF SHA-256.",
+    "Inspected abstract, Sections 1-6 and references. No supplementary material, code, raw runs or timing logs were supplied or inspected.",
+    "Retrospective ICLR 2017 assessment in memory networks, approximate retrieval and question answering. No external search, historical human reviews, source directory or other panel reviews were used. Competence covers the presented method and empirical design; exhaustive historical novelty and implementation correctness are not independently established."
+  ],
+  "score_reason": "Marginally below the ICLR 2017 acceptance threshold. Training a supervised memory reader through retrieved subsets is a useful and clearly specified integration, and the exact-retrieval comparison provides a credible positive signal. However, practical scalability is the main contribution: the stated 5X saving is supported by candidate counts rather than end-to-end time, while the best approximate model loses 6.4 accuracy points to the full-softmax baseline. One fixed-memory, reduced-corpus experiment leaves this tradeoff and its transfer insufficiently established. These are evidence limitations rather than a demonstrated fatal algorithmic error. A measured speed-accuracy frontier over memory sizes with the same model and stronger replication could change my recommendation.",
+  "change_reason": "Score unchanged after the single cross-examination response. Both checks confirm the original bounded reading: exact retrieval supports the complete training recipe without isolating gradient concentration, and reduced candidate counts support plausible savings without establishing or refuting end-to-end acceleration. No new runtime or scaling evidence resolves the main practical-utility gap.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "EUGR-S1",
+      "kind": "strength",
+      "claim": "The proposed training recipe gives a workable route to learning queries for a fixed external memory without differentiating through a full-memory softmax.",
+      "location": "Sections 3 and 5.2, pp. 4 and 7, equations (2)-(4).",
+      "observation": "The paper explicitly forms a candidate set by MIPS, normalizes within it, inserts the correct fact during training and optimizes its negative log likelihood; the fixed TransE memory makes a static search index consistent with the modeled setup.",
+      "consequence": "This is a useful, understandable integration of approximate retrieval into supervised reader training, with no evident contradiction in the restricted fixed-memory setting.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Supervised fact retrieval with a known supporting fact and fixed memory vectors; not a demonstrated solution for arbitrary writable or weakly supervised memories.",
+      "remedy": "",
+      "would_change_judgment": "This integration and its positive controlled experiment are the principal reasons the paper remains near the threshold."
+    },
+    {
+      "id": "EUGR-S2",
+      "kind": "strength",
+      "claim": "Exact candidate selection improves accuracy in the controlled reader comparison.",
+      "location": "Section 5.4 and Table 1/Figure 1, pp. 7-8.",
+      "observation": "Full softmax achieves 59.5% accuracy; 10-MIPS achieves 62.2%, and larger K values approach the full-softmax result. Figure 1 shows similar convergence in epochs. The model and fixed memory are shared, and the authors disclose batch candidate pooling and acknowledge that exact MIPS still scans memory.",
+      "consequence": "The observed 2.7-point gain supports the value of changing the training candidate distribution within this model, separately from any acceleration claim.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The reported SimpleQuestions setup; a single reported run per setting, and the curve measures epochs rather than elapsed time.",
+      "remedy": "",
+      "would_change_judgment": "Repeated runs retaining this gain would strengthen the evidence, though exact retrieval alone does not establish the scaling contribution."
+    },
+    {
+      "id": "EUGR-W1",
+      "kind": "weakness",
+      "claim": "The manuscript does not establish the claimed practical training speedup or its scaling with memory size.",
+      "location": "Section 3.1, p. 5; Section 5.5, p. 8; Tables 1-2 and Figure 1.",
+      "observation": "The 5X speedup is justified by accessing roughly 20,000 facts rather than 108,442. No elapsed training/inference time, hardware, indexing cost or scaling curve is reported. Table 2 reports convergence ranging from 16 to 68 epochs, while Figure 1 is in epochs. Centroid search and subsequent candidate scoring both contribute work, despite the simplified centroid-only description in Section 3.1.",
+      "consequence": "Fewer accessed facts is useful evidence of reduced scoring work but does not show fivefold end-to-end acceleration or faster training to a useful accuracy; different convergence rates and retrieval overhead can change the practical ranking.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The central efficiency claim, not the validity of restricted-softmax training.",
+      "remedy": "Report end-to-end time and accuracy across at least several memory sizes, including retrieval/indexing overhead and time to convergence on the same hardware.",
+      "would_change_judgment": "Yes; a convincing measured speed-accuracy frontier could move the recommendation above threshold."
+    },
+    {
+      "id": "EUGR-W2",
+      "kind": "weakness",
+      "claim": "The approximate method incurs a substantial accuracy cost, and the available evaluation does not establish when its practical benefit outweighs that cost.",
+      "location": "Sections 5.1 and 5.5, pp. 6 and 8; Tables 1-2.",
+      "observation": "The best approximate result is 53.1%, compared with 59.5% for full softmax and 62.2% for exact 10-MIPS. Approximate methods are evaluated near one 20,000-fact access budget; the paper uses a 108,442-sized memory instead of the 10M/12M-fact alternatives mentioned in Section 5.1.",
+      "consequence": "The 6.4-point loss versus the full baseline is material. With no wider budget frontier or larger-memory demonstration, the paper has not shown an operating regime where its main scalability advantage is compelling.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Fixed TransE memory and a bag-of-words query encoder on this reduced SimpleQuestions candidate universe. It is not necessary to claim state-of-the-art QA to address this concern.",
+      "remedy": "Vary retrieval budgets and memory size, and show the attainable accuracy/time tradeoff against full softmax where feasible and a simple sampled-candidate training baseline under the same setup.",
+      "would_change_judgment": "Yes; useful measured operating points at substantially larger memory sizes would address the main utility gap."
+    },
+    {
+      "id": "EUGR-W3",
+      "kind": "weakness",
+      "claim": "The reliability of small ablation gains and reproduction of approximate retrieval settings are underdocumented.",
+      "location": "Sections 3.1 and 5.3-5.5, pp. 5 and 7-9; Table 2.",
+      "observation": "The paper specifies Adam, batch size, embeddings, stopping criteria and cluster counts, but does not provide run variability, chosen augmentation U/m, detailed top-versus-sampled cluster counts or the tuned hash/tree parameters. In Table 2, some differences are only 0.3-0.6 points, and the sampling strategies introduce randomness.",
+      "consequence": "The broad clustering advantage over tree/hash is substantial in the reported results, but fine rankings such as Top-K plus Sample-K being best are less dependable; exact reproduction of the reported budget matching is difficult.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Small ablation differences and experimental reproducibility, rather than an assertion that reported results are incorrect.",
+      "remedy": "Disclose retrieval settings and tuning procedure and repeat key conditions with uncertainty estimates.",
+      "would_change_judgment": "A useful improvement in confidence; by itself it would not resolve the missing end-to-end scalability evidence."
+    },
+    {
+      "id": "EUGR-W4",
+      "kind": "weakness",
+      "claim": "Evidence for transfer beyond this constrained reader remains limited relative to the general-purpose motivation.",
+      "location": "Sections 2-4, pp. 3-6; Sections 5.1-5.2 and conclusion, pp. 6-7 and 9.",
+      "observation": "All experiments use a single factoid-QA dataset, fixed TransE vectors and a learned bag-of-words query encoder. The manuscript explicitly limits itself to read-only memory and inserts ground-truth facts during training; it nevertheless motivates broad modality-independent retrieval and suggests replacing softmax whenever possible.",
+      "consequence": "The results support a promising fixed-memory supervised retrieval component; they do not establish broad superiority of K-MIPS attention or dependable behavior in other memory architectures.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Generalization of empirical claims; the stated read-only restriction itself is legitimate and is not a defect.",
+      "remedy": "Narrow general claims to the tested setting or add one materially different fixed-memory retrieval setting; dynamic memory need not be solved in this paper.",
+      "would_change_judgment": "Would strengthen significance and generality, especially together with measured scaling."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "dicn",
+      "evidence_id": "EUGR-S2",
+      "type": "scope",
+      "challenge": "Confirmed with a causal-scope qualification. Table 1 (p. 8) reports 62.2% for 10-MIPS versus 59.5% for full softmax, and Figure 1 supports comparable convergence in epochs. Section 5.4 (p. 7) makes clear that training also pools candidates across the minibatch: the actual average softmax size is 1,290, not ten. Thus your interpretation as evidence for a changed training candidate distribution is sound, but exact top-K selection alone is not isolated from batch pooling and restricted renormalization. Please retain the recipe-level interpretation and do not infer that the gradient-concentration explanation in Section 3 (p. 4) has been identified. This qualification does not dispute the numerical positive result or require a theorem.",
+      "response": "Agreed; the positive evidence remains a recipe-level observation. Section 5.4 on page 7 discloses minibatch pooling, and Table 1 on page 8 reports an average 1,290 candidates for 10-MIPS. My original observation and consequence already credit the changed training candidate distribution and disclose pooling rather than identifying top-K alone as the causal mechanism. I do not infer that concentrated gradients explain the 2.7-point gain: restricted renormalization and the pooled negatives are not independently controlled. The bounded positive judgment is upheld.",
+      "resolution": "upheld"
+    },
+    {
+      "from_persona": "dicn",
+      "evidence_id": "EUGR-W1",
+      "type": "scope",
+      "challenge": "Confirmed as a missing-evidence objection. Section 5.5 (p. 8) connects approximately 20,000 accessed facts with 5X speedup, while Tables 1-2 provide candidate counts and epochs, not wall-clock measurements. Section 3.1 (p. 5) counts centroid dot products but Equation 4 (p. 4) still requires scoring candidate facts. The observed count reduction nevertheless establishes a plausible computational route to acceleration in the fixed-memory regime; it is not no evidence of efficiency at all. Please preserve the distinction between unverified fivefold end-to-end acceleration and a refuted speedup claim. Table 2 establishes variable epoch counts across approximate strategies, but does not itself give the exact full-softmax stopping epoch or demonstrate that approximate training is slower overall.",
+      "response": "Agreed; this is missing end-to-end evidence, not a refuted acceleration claim. My original consequence explicitly credits reduced scoring work and states that it does not show fivefold end-to-end acceleration. Section 5.5 and Table 1 support a plausible computational saving in the fixed-memory setup. Table 2 only shows variation across approximate strategies; it does not prove that approximate training is slower than full softmax, and I make no such claim. The absence of elapsed-time and size-sweep measurements leaves the central practical tradeoff unresolved, so the bounded objection is upheld.",
+      "resolution": "upheld"
+    }
+  ]
+}

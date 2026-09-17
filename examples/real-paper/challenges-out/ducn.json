@@ -1,0 +1,18 @@
+{
+  "from_persona": "ducn",
+  "to_persona": "eigr",
+  "checks": [
+    {
+      "evidence_id": "eigr-s1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed against Table 1 and Figure 1 (p. 8): exact K=10,50,100,1000 yields 62.2, 61.2, 60.6, 59.6 versus 59.5 for full softmax, with similar epoch trajectories. The positive is strongest as feasibility of the full supervised restricted-normalization recipe. Section 3 (p. 4) inserts the gold fact, and Section 5.4 (p. 7) unions candidates across each minibatch, producing an average size of 1,290 for nominal K=10. Thus the trend cannot separately identify a benefit of a literal ten-candidate normalization or of query-specific top-K selection alone. Your observation already discloses the union and your scope excludes universal superiority, so no factual correction is needed; please preserve that restriction when interpreting the consistent trend, which is across K settings rather than repeated runs."
+    },
+    {
+      "evidence_id": "eigr-w1",
+      "polarity": "negative",
+      "type": "scope",
+      "challenge": "Confirmed: Section 5.5 (p. 8) links approximately 20,000 accesses to a 5X speedup, while Table 2 (p. 9) spans 16-68 convergence epochs and no elapsed-time or memory-size sweep is given. Section 3.1 (p. 5) also omits selected-fact scoring from its centroid-only description. This is missing evidence for the central practical benefit, not proof that search is slow. From a contextual utility perspective, please distinguish per-epoch savings, total training cost, and inference latency: none can be inferred directly from the others. The requested common validation target must be achievable by both methods, or be supplemented with each method's final-quality/time point, because best approximate test accuracy is 53.1 versus 59.5 for full softmax (Tables 1-2). I support the negative as scoped; the value judgment is how much this missing operating-point evidence should matter for an exploratory 2017 contribution, rather than an additional factual defect."
+    }
+  ]
+}

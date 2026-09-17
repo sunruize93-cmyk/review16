@@ -1,0 +1,18 @@
+{
+  "from_persona": "eign",
+  "to_persona": "ducr",
+  "checks": [
+    {
+      "evidence_id": "ducr-e2",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed against Table 1 and Figure 1 (p. 8): exact 10-MIPS obtains 62.2% versus 59.5% for full softmax, the larger-K results form the stated ordered trend, and the figure supports comparable convergence in epochs. Your scope is sound, including the 1,290-entry average batch-union softmax and absence of a wall-clock claim. From an insight-seeking perspective, this supports the candidate-restriction phenomenon but does not isolate why it works: Section 5.4 (p. 7) changes both K and effective candidate-set size, while Section 3 (p. 4) interprets the result as gradient concentration without a matched-size candidate control. Can we explicitly preserve this distinction between a supported empirical trend and an unverified mechanism? This is a refinement of interpretation, not a factual objection to your positive assessment."
+    },
+    {
+      "evidence_id": "ducr-e4",
+      "polarity": "negative",
+      "type": "value",
+      "challenge": "Confirmed: Section 5.5 (p. 8) ties the 5X statement to approximately 20,000 accesses versus 108,442 memory entries, and Table 2 (p. 9) reports differing convergence epochs without timings; Section 3.1 (p. 5) counts centroid dot products without complete retrieval and candidate-scoring costs. Your distinction between unestablished and disproved practical speedup is therefore correct. The remaining disagreement is how much this omission should limit the contribution: the exact-search trend in Table 1 remains an empirical learning result even if end-to-end acceleration is unknown, and the sampling ablation supplies a concrete exploratory direction. Does your concern remain specifically a major evidentiary gap in practical scalability, rather than evidence that the hybrid learning construction or empirical candidate-restriction result lacks scientific utility? No measurement in the manuscript settles that value judgment; no score change is requested."
+    }
+  ]
+}

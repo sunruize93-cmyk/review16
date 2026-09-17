@@ -1,0 +1,18 @@
+{
+  "from_persona": "dign",
+  "to_persona": "eucr",
+  "checks": [
+    {
+      "evidence_id": "EUCR-S1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed within your stated scope: Table 1 (p. 8) reports 62.2% versus 59.5%, and Figure 1 supports comparable convergence in epochs; Section 5.4 (p. 7) explicitly acknowledges linear exact retrieval. I would retain the positive proof of concept. One boundary to make explicit in calling this controlled: the intervention is the whole candidate-restricted training procedure, including gold-fact insertion (Section 3, p. 4) and a shared minibatch candidate union (Section 5.4), rather than an isolated test of gradient concentration. Thus it establishes learnability and a reported modeling benefit, but does not identify why the gain occurs or show a speed gain. Does your practical modeling value mean precisely that bounded benefit? No factual disagreement with the result or score-change request is intended."
+    },
+    {
+      "evidence_id": "EUCR-W1",
+      "polarity": "negative",
+      "type": "value",
+      "challenge": "Confirmed: Section 5.5 (p. 8) links approximately 20,000 accessed facts to 5X speedup, while the manuscript supplies no end-to-end timing or hardware details; Table 2 (p. 9) shows materially different convergence epochs. This supports uncertainty about actual training utility, not evidence of failure to accelerate. From an architectural perspective, I would distinguish the established reduction in candidate scoring from the unmeasured runtime claim: missing million-fact experiments alone need not negate the useful abstraction in Equations 3–4 (p. 4), and the 16-versus-68 epoch comparison is between two approximate strategies rather than against full softmax. Your major concern remains sound when anchored in absent complete-cost measurements. Would a modest within-setting timing and compute–accuracy study satisfy the remedy without requiring the motivating 10M/12M setup?"
+    }
+  ]
+}

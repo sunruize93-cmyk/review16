@@ -1,0 +1,116 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eicr",
+  "model": "GPT-6-family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 4,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 2,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read all manuscript text, pages 1–10: abstract, Sections 1–6, and references. Verified frozen PDF SHA-256 against task.",
+    "Visually inspected all ten supplied PDF-page renders, including Equations 1–8, Tables 1–2, and Figure 1.",
+    "No supplement or implementation supplied in the allowed materials; no experiments replicated. No human reviews, other reviewers, source directory, or external paper pages consulted.",
+    "Assessment is retrospective under supplied ICLR 2017 rubric. Competence covers memory networks, approximate retrieval, and supervised QA; external priority and bibliography accuracy were not independently audited.",
+    "Cross-examination: read only the authorized opposite frozen review and incoming DUGN challenge package; original first-pass evidence remains unchanged."
+  ],
+  "score_reason": "5, marginally below the supplied acceptance threshold. The controlled fixed-memory QA comparison gives a credible empirical reason to consider candidate-restricted training: exact 10-MIPS improves 59.5% to 62.2%, and clustering is substantially stronger than the two other approximate readers at similar candidate counts. However, the central scalable-learning claim is supported by a memory-access proxy at one memory size, without measured end-to-end time. The explanation in terms of gradient concentration or reduced approximation bias is not isolated from candidate composition and training duration. Table 2 gives useful exploratory evidence, but single reported runs and missing retrieval/gradient diagnostics do not establish why the intervention works or how dependable its small improvements are. These are central evidence gaps for an empirical, mechanism-focused contribution, rather than demands for state-of-the-art QA or modern baselines. The novelty diagnostic reflects the manuscript-described integration of existing MIPS techniques into supervised reader training, not an independently verified external priority judgment. After cross-examination, the exact-MIPS positive is explicitly scoped to the full recipe including gold-fact insertion and minibatch candidate unions; the benefit of per-query truncation alone is not isolated. The computational-accounting concern is reinforced by candidate scoring in Eq. (4), which is additional to centroid scoring. Neither clarification establishes that speedups are absent.",
+  "change_reason": "Score remains 5. Cross-examination narrows the exact-MIPS strength explicitly to the combined candidate-construction recipe, a confound already recognized in the initial mechanism critique, and upholds the absence of measured runtime and scaling evidence. These clarifications do not change the balance of supported utility and unresolved central evidence gaps.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "EICR-S1",
+      "kind": "strength",
+      "claim": "Restricted candidate training improves accuracy within a reasonably controlled simple QA model.",
+      "location": "Sections 5.2–5.4, Table 1, Figure 1; pages 7–8.",
+      "observation": "Question embeddings are learned while TransE fact embeddings are fixed. Reported test accuracy increases from 59.5% for full softmax to 62.2% for exact 10-MIPS, with progressively smaller gains at larger K. Figure 1 plots validation error against epochs and does not show impaired epoch-wise convergence.",
+      "consequence": "The paper establishes a useful within-model observation that retaining all negatives is unnecessary and can be worse in this setting.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Exact retrieval, fixed representations, supervised SimpleQuestions subset; neither a wall-clock speedup nor a universal advantage of truncation is established.",
+      "remedy": "",
+      "would_change_judgment": "Reversal across repeated matched runs would weaken the principal accuracy result."
+    },
+    {
+      "id": "EICR-S2",
+      "kind": "strength",
+      "claim": "The approximate-reader comparison and sampling variants offer informative empirical guidance for this setting.",
+      "location": "Section 5.5 and Tables 1–2; pages 8–9.",
+      "observation": "At reported similar access budgets, clustering scores 51.5%, WTA-Hash 40.2%, and PCA-Tree 32.4%. With 2000 clusters, adding Sample-K to Top-K increases accuracy from 51.5% to 53.1%; Sample-K alone reaches 52.8% but takes 63 epochs versus 26 for the combination.",
+      "consequence": "This supports investigating clustering and mixing deterministic with sampled candidates rather than treating approximate search choices as interchangeable.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Observed results at about 20000 accessed facts; small strategy differences are not established as statistically reliable.",
+      "remedy": "",
+      "would_change_judgment": "Evidence that access budgets or tuning were substantially mismatched would narrow this favorable assessment."
+    },
+    {
+      "id": "EICR-W1",
+      "kind": "weakness",
+      "claim": "The reported 5X speedup is not established as an end-to-end training or inference speedup.",
+      "location": "Section 5.1, Section 5.5 final paragraphs, Figure 1 and Table 2; pages 6, 8–9.",
+      "observation": "The manuscript derives 5X from approximately 20000 accessed facts out of a 108442-cell memory. It reports no timing table or scaling curve, hardware, indexing cost, or candidate-union overhead. Figure 1 uses epochs, and Table 2 shows different convergence lengths.",
+      "consequence": "The central practical benefit remains a computation proxy; fewer memory accesses alone do not establish faster training to a stated accuracy or extrapolation to larger memories.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Does not dispute the plausibility of sublinear approximate retrieval or the arithmetic reduction in accesses.",
+      "remedy": "Measure wall-clock training and inference, separate preprocessing and retrieval costs, and plot accuracy versus elapsed time at more than one memory size.",
+      "would_change_judgment": "Yes. A convincing accuracy–time tradeoff with documented overhead could move this review above threshold."
+    },
+    {
+      "id": "EICR-W2",
+      "kind": "weakness",
+      "claim": "The experiments do not isolate the proposed explanation through gradient concentration and approximation-bias reduction.",
+      "location": "Sections 3–3.1 and 5.4–5.5; pages 4–5 and 7–9.",
+      "observation": "Training forcibly includes the gold fact and unions candidates across the minibatch; exact 10-MIPS therefore uses an average softmax size of 1290. Sampling changes candidate composition and convergence epochs. There is no matched-size random-negative comparator for the exact-MIPS gain, no minibatch-union ablation, and no measurement of gradient discrepancy or retrieval recall across training.",
+      "consequence": "The evidence shows that the combined training recipe can help, but cannot attribute its improvement specifically to concentrating strong gradients or reducing approximate-search bias.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "A limitation of the causal explanation, not evidence that gold-fact inclusion is improper or that the model is incorrect.",
+      "remedy": "Compare matched candidate budgets with and without query-dependent mining and minibatch sharing; measure held-out gold-fact retrieval and, on a manageable subset, discrepancy from the full-softmax gradient.",
+      "would_change_judgment": "Yes, if these controls establish the asserted mechanism and locate the main source of the accuracy loss."
+    },
+    {
+      "id": "EICR-W3",
+      "kind": "weakness",
+      "claim": "Reliability and reproducibility of the approximate-search tradeoff are insufficiently characterized.",
+      "location": "Sections 3.1, 5.3, 5.5 and Table 2; pages 5, 7–9.",
+      "observation": "The paper provides optimizer, learning rate, batch size, representation dimension, and stopping rule, but gives no run variability. It names transformation parameters U and m and search-specific hyperparameters without reporting their selected settings or the Top-K/Sample-K budget split. Table 2 distinguishes some strategies by only 0.3 percentage points.",
+      "consequence": "A reader cannot reconstruct the advertised equal-budget comparisons precisely or judge whether the small strategy rankings are stable. The much larger clustering-versus-tree gap remains suggestive.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Applies to reported approximate-search recipes; not an assertion that the results fail replication.",
+      "remedy": "Provide the selected search configurations and tuning procedure, and repeat the closest strategy comparisons across seeds with uncertainty estimates.",
+      "would_change_judgment": "Yes for confidence in the mechanism and tradeoff; this alone would not resolve the missing runtime evidence."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "dugn",
+      "evidence_id": "EICR-S1",
+      "type": "scope",
+      "challenge": "Confirmed as a reported within-model improvement: Table 1 (p. 8) gives 59.5% versus 62.2%, and Figure 1 supports similar epoch-wise convergence. One useful qualification is that this tests the complete exact-MIPS training recipe: Section 5.4 (p. 7) unions top-K candidates across each minibatch, giving 1,290 average candidates for K=10, and Section 3 (p. 4) inserts the gold fact. Thus the result establishes utility for this candidate-composition recipe, not a separately isolated benefit of query-dependent top-K truncation. Your existing restriction to exact retrieval and this fixed-memory setting is sound; would you make the recipe-level scope explicit when describing what is established?",
+      "response": "Agreed. The supported positive result is the complete supervised exact-MIPS recipe: gold-fact insertion in Section 3 (p. 4), minibatch candidate union in Section 5.4 (p. 7), and the resulting average 1290 candidates in Table 1 (p. 8). I narrow any causal reading of EICR-S1 accordingly: 62.2% versus 59.5% demonstrates a within-model benefit of that combined recipe, not an isolated effect of per-query top-K selection. This is consistent with the initial EICR-W2 mechanism limitation and preserves the descriptive strength.",
+      "resolution": "narrowed"
+    },
+    {
+      "from_persona": "dugn",
+      "evidence_id": "EICR-W1",
+      "type": "factual",
+      "challenge": "Confirmed: Section 5.5 (p. 8) presents about 20,000 accesses as yielding 5X speedup, but Tables 1-2 provide accuracy, candidate counts, and epochs rather than measured elapsed time. Equation (4), p. 4, also requires scoring the retrieved candidates after centroid selection, so the p. 5 statement that a read requires only the number of centroid dot-products is incomplete computational accounting. This strengthens your request to include retrieval and candidate overhead. The defensible conclusion remains that end-to-end speed and scaling are unestablished, not that the method cannot be faster. From my utility/generalization perspective this is decisive evidence to request; its severity is a contribution-weighting judgment, whereas the lack of reported measurements is a manuscript fact.",
+      "response": "Confirmed. Equation (4), p. 4 requires dot products and normalization over candidate rows after retrieving clusters, so the centroid-only count in Section 3.1, p. 5 is incomplete for a full read. Section 5.5 and Tables 1–2 contain no measured end-to-end timing. EICR-W1 already scopes its conclusion to missing evidence rather than impossibility of speedup; I retain that distinction. I continue to treat this as a major limitation because scalable learning is a central stated contribution, while acknowledging that this severity reflects contribution weighting. No additional measurement has been supplied to resolve it.",
+      "resolution": "upheld"
+    }
+  ]
+}

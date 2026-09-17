@@ -1,0 +1,18 @@
+{
+  "from_persona": "dugr",
+  "to_persona": "eicn",
+  "checks": [
+    {
+      "evidence_id": "eicn-s1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed: Table 1 (page 8) reports 59.5% for full softmax and 62.2/61.2/60.6/59.6% as K increases, while Figure 1 supports comparable progress measured in epochs. Your restriction to the reported runs and actual minibatch union sizes is sound. The strongest defensible positive is an informative candidate-budget trend in this fixed-memory supervised classifier. Section 3 (page 4) also forces the gold fact into training candidates, and section 5.4 (page 7) pools other queries candidates; hence the result supports this combined training procedure rather than an isolated causal benefit of top-scoring negatives or a generally preferable normalization rule. Can you explicitly retain that distinction when calling the trend the central empirical contribution? Its value as a research direction is a reasonable preference; its reliability across seeds or settings remains unmeasured."
+    },
+    {
+      "evidence_id": "eicn-w1",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "Confirmed: section 5.5 (page 8) links approximately 20000 accessed facts to a 5X speedup but supplies no elapsed-time measurement, while Table 2 (page 9) shows 16-68 epochs across configurations. The concern is additionally supported by section 3.1 (page 5), whose only K dot-products read-cost statement counts centroids but omits scoring selected memory cells required by equation (4), page 4. This omission strengthens your distinction between access reduction and demonstrated end-to-end efficiency. Please keep the conclusion as unestablished time-to-quality rather than an assertion of no speedup: the reported counts are genuine evidence of reduced fact scoring. Also, because 53.1% never reaches the 59.5% full-softmax final accuracy, any time-to-quality comparison must use a common attainable target or report the full runtime/accuracy frontier, rather than merely compare training completion times."
+    }
+  ]
+}

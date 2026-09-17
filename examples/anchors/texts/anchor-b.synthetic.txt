@@ -1,0 +1,14 @@
+SYNTHETIC MINI-PAPER — Software demonstration only.
+This is the entire toy manuscript, not an excerpt from a real publication.
+
+1. Problem
+Given a nonempty array of integers, return its largest element. We study the comparison model without assumptions about input ordering.
+
+2. Method and invariant
+Initialize best = A[0]. For each remaining element x, replace best with x if x > best. After processing k elements, best equals the maximum of the first k elements. The claim holds at k = 1. At k + 1, the update compares the previous maximum with the next element, proving the invariant inductively. At termination the output is the array maximum.
+
+3. Complexity and evidence
+The algorithm performs exactly n - 1 comparisons and uses constant extra storage. In the worst case every element except the maximum must lose a comparison; fewer than n - 1 comparisons cannot establish all such losses. For [4, 1, 0] the output is 4; for [1, 4, 0] the output is also 4. These are illustrative traces, not an empirical benchmark.
+
+4. Scope
+The method is a standard introductory algorithm, so this toy manuscript makes no research novelty claim. Its purpose is to provide a complete, internally consistent specimen for testing review software.

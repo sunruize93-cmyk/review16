@@ -1,0 +1,14 @@
+SYNTHETIC MINI-PAPER — Software demonstration only.
+This is the entire toy manuscript, not an excerpt from a real publication.
+
+1. Problem
+Given a nonempty array of integers, return its largest element. The proposed method reads only the first element and returns it. The central claim is that this method solves the stated task for every input.
+
+2. Method
+Algorithm: return A[0]. It uses a constant number of operations and constant extra storage. The method assumes the first element is the largest, although the problem statement does not impose an ordering constraint.
+
+3. Evidence
+On the single test array [4, 1, 0], the algorithm returns 4, which is correct. On the array [1, 4, 0], it returns 1, which is incorrect. The manuscript supplies these exact examples and no measured benchmark.
+
+4. Conclusion
+The universal correctness claim is contradicted by the second supplied example. Constant runtime is obtained by discarding necessary information. No novelty or external empirical performance is claimed by this synthetic fixture.

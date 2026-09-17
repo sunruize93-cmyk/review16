@@ -1,0 +1,18 @@
+{
+  "from_persona": "eucn",
+  "to_persona": "digr",
+  "checks": [
+    {
+      "evidence_id": "digr-e2",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed within the stated scope: Table 1 (p. 8) reports 59.5% for full softmax, 62.2% for exact 10-MIPS and 59.6% for 1000-MIPS, with the minibatch-union size explicitly given as 1290 for 10-MIPS. Figure 1 supports comparable convergence in epochs. From a utility-focused perspective this is a meaningful positive result even though exact search saves no asymptotic retrieval work. I would retain the strength but read “establishes an interesting restricted-objective effect” as a reported within-setting effect rather than a replicated mechanism: Section 5.4 changes the candidate objective, Table 1 supplies no variability, and the evidence does not isolate gradient concentration as its cause. Your existing single-setting and no-runtime caveats are sound."
+    },
+    {
+      "evidence_id": "digr-e3",
+      "polarity": "negative",
+      "type": "scope",
+      "challenge": "Confirmed: Section 3.1 (p. 5, after Eq. 8) counts centroid dot products, while Eq. 4 (p. 4) still requires scoring selected memory vectors. Section 5.5 (p. 8) associates roughly 20,000 fact accesses with 5X speedup but supplies no elapsed-cost table; Table 2 (p. 9) gives 16–68 epochs. This supports the major concern about practical time-to-accuracy, not a finding that the method is slower. One qualification: variation in Table 2 is among approximate configurations, so it cannot itself establish extra convergence epochs relative to the full-softmax baseline. The useful empirical revision is a measured end-to-end time/accuracy frontier; multiple memory sizes would strengthen the broad scalability claim but need not become an inflexible checklist if one clearly useful large-memory operating point is established."
+    }
+  ]
+}

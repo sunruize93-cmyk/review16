@@ -1,0 +1,142 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "dicn",
+  "model": "GPT-6 family Codex; exact deployment unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 3,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read the entire supplied manuscript.txt, abstract, Sections 1-6, and references on pages 1-10.",
+    "Visually inspected page-01.png through page-10.png, including Equations 1-8, the learning objective, Figure 1, and Tables 1-2. Verified the PDF SHA-256 against the supplied task.",
+    "No supplementary material, code, raw experiments, or external cited papers inspected; these were not supplied as review materials. No human reviews, other reviewer outputs, or historical decision consulted.",
+    "Assessment is retrospective under the supplied ICLR 2017 rubric. Competence covers memory networks, supervised retrieval, and approximate search at a conceptual and mathematical level; no implementation reproduction or independent historical novelty search was performed.",
+    "After freezing the initial review, read only the assigned EUGR frozen review and its two-check package for one cross-examination and one response; no other panel outputs or external outcomes inspected."
+  ],
+  "score_reason": "5: Marginally below acceptance threshold. The paper establishes a useful research direction: learning queries against a fixed approximate-search index using supervised, restricted softmax training. Its exact-search comparison and cluster-sampling ablations give encouraging, concrete evidence in this setting. However, the central scalable-learning claim is supported primarily by candidate counts at one memory size rather than measured end-to-end time or a size sweep, despite a substantial accuracy loss. The proposed gradient-bias explanation is also not identified by the experiments. These shortcomings prevent the otherwise promising contextual insight from becoming a sufficiently substantiated conference contribution. No fatal error in the basic learning construction was found; resolving the runtime and mechanism questions could move the assessment above threshold.",
+  "change_reason": "Score remains 5 after the single cross-examination. Both checks confirm the original bounded positive construction and the missing end-to-end scalability evidence, without new factual corrections. The paper still supplies a useful static supervised retrieval idea, but its speed-accuracy tradeoff and proposed explanatory mechanism remain insufficiently established. Agreement with another reviewer is not an independent reason for the score.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "dicn-e1",
+      "kind": "strength",
+      "claim": "The paper gives a coherent way to learn a query encoder while using a fixed discrete search mechanism.",
+      "location": "Sections 2-3, pages 3-4, Equations 2-4; Section 5.2, page 7.",
+      "observation": "The reader first selects a candidate set by inner product, computes softmax over that set, includes the known correct fact during training, and updates the question embedding using supervised negative log likelihood. Memory vectors remain fixed. This makes the conditional learning step well defined without differentiating through the discrete candidate-selection operation.",
+      "consequence": "This is an intelligible and useful bridge between approximate retrieval and learned memory access, with a clearly stated source of supervision. The contribution can be evaluated without requiring a new search algorithm or a theorem.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Fixed-memory, supporting-fact-supervised query learning. Priority relative to all 2017 literature was not independently verified.",
+      "remedy": "",
+      "would_change_judgment": "This positive judgment would weaken if the training or evaluation actually used unreported oracle information at test time; the manuscript provides no such evidence."
+    },
+    {
+      "id": "dicn-e2",
+      "kind": "strength",
+      "claim": "Exact candidate restriction yields a meaningful reported accuracy improvement in the controlled model.",
+      "location": "Section 5.4, page 7; Table 1 and Figure 1, page 8.",
+      "observation": "The same question-embedding model obtains 62.2% test accuracy for 10-MIPS versus 59.5% for full softmax; the average training softmax contains 1,290 candidates rather than 108,442 because candidates are shared across a batch. Figure 1 plots validation error against epochs and shows no conspicuous convergence delay for restricted softmax.",
+      "consequence": "The improvement motivates exploring selective memory access for learning, beyond its possible computational advantages. The effective batch candidate count is explicitly disclosed, avoiding the mistaken inference that training compares only ten facts.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Reported single-task comparison, without an uncertainty estimate. This is evidence for the restricted-training recipe, not a measured exact-MIPS speedup.",
+      "remedy": "",
+      "would_change_judgment": "Replicated improvement and a matched candidate-selection control would strengthen the interpretation."
+    },
+    {
+      "id": "dicn-e3",
+      "kind": "strength",
+      "claim": "The approximate-search ablation provides a concrete, limited insight into exploration during supervised retrieval.",
+      "location": "Section 5.5, page 8; Table 2, page 9.",
+      "observation": "Adding Sample-K to Top-K improves test accuracy from 50.2% to 52.8% for 1,000 clusters and from 51.5% to 53.1% for 2,000 clusters. Sample-K alone reaches 52.5% and 52.8%, but takes 68 and 63 epochs, compared with 31 and 26 for the combination. Random blocks do not improve on the combined strategy.",
+      "consequence": "These results suggest that purely greedy cluster selection is a weaker learning strategy here, and that combining selected and sampled clusters offers a useful empirical compromise.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Two clustering configurations on one fixed memory; this is not a proof of gradient-bias reduction or a statistically established universal ordering.",
+      "remedy": "",
+      "would_change_judgment": "The strength would increase with repeated runs and candidate-recall measurements across training."
+    },
+    {
+      "id": "dicn-e4",
+      "kind": "weakness",
+      "claim": "The central speed and scalability claims lack the measurements needed to establish an end-to-end training advantage.",
+      "location": "Section 3.1, page 5; Section 5.5, page 8; Tables 1-2, pages 8-9.",
+      "observation": "The paper states that approximately 20,000 fact accesses imply a 5X speedup, and reports average softmax size and convergence epochs. It gives no wall-clock times, indexing cost, hardware description, or memory-size sweep. A read also requires centroid selection and scoring the selected candidate facts; the page-5 statement that a read requires only the centroid dot products omits this latter work. Table 2 shows that choices with comparable candidate budgets can require very different epoch counts.",
+      "consequence": "Candidate-count reduction is credible, but it cannot establish the claimed effective speedup or time to a useful accuracy. This is central because the best approximate configuration reaches 53.1% versus 59.5% for full softmax, so the computational gain must be quantified to assess the tradeoff.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Reported 108,442-entry benchmark and approximate methods; this does not assert that an implementation cannot be faster.",
+      "remedy": "Report training and inference wall-clock time, index construction and memory overhead, and accuracy-versus-time across several memory sizes, including the full-softmax baseline. Correct the read-cost description.",
+      "would_change_judgment": "Yes. Demonstrated end-to-end gains with an informative accuracy-time frontier would remove the largest barrier to acceptance."
+    },
+    {
+      "id": "dicn-e5",
+      "kind": "weakness",
+      "claim": "The experiments do not establish the proposed gradient-dispersion and bias-reduction explanation for the observed performance.",
+      "location": "Section 3, page 4; Section 3.1, page 5; Section 5.4 and Table 2.",
+      "observation": "The text attributes the advantage of restricted softmax to concentrated gradients and says that batch sharing and cluster sampling decrease approximation bias. Yet restricting and renormalizing the softmax changes the supervised objective; adding candidates from other batch queries also changes its negative distribution. Accuracy and epoch plots alone do not isolate these effects, and no gradient comparison to full softmax or matched random-candidate baseline is reported.",
+      "consequence": "The empirical recipe is promising, but the reader cannot conclude that the stated mechanism caused its advantage or that the sampling procedures generally reduce gradient bias. This matters for deciding when the method should transfer.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Explanatory claims about the supplied experiments. A theorem is not required, and no claim is made that the proposed mechanisms are impossible.",
+      "remedy": "Either label the explanation as a hypothesis, or measure omitted probability mass and gradient error while comparing equal-budget random, exact-top, and sampled candidates with batch sharing held fixed.",
+      "would_change_judgment": "Yes, especially if mechanism evidence explains the exact-search gain and approximate-search loss within one coherent account."
+    },
+    {
+      "id": "dicn-e6",
+      "kind": "weakness",
+      "claim": "The evidence supports a narrower memory-access setting than several broad claims imply.",
+      "location": "Sections 4-5.1, page 6; Section 5.2, page 7; Conclusion, page 9.",
+      "observation": "The experiments use only the SimpleQuestions fact pool, not the larger FB2M or FB5M pools discussed in the text. They learn bag-of-words question embeddings over fixed concatenated TransE facts with known supporting facts. The manuscript nevertheless suggests use for any modality and suggests that clustering could improve SAM, although that model has a writable memory and is not evaluated here.",
+      "consequence": "The paper establishes feasibility for static supervised fact retrieval, but has not demonstrated the broader architecture-level advantages suggested by these extrapolations. The deliberate simple model is reasonable; the conclusions should follow its boundary.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Generalization beyond the studied setting, not a demand for state-of-the-art SimpleQuestions accuracy or 2026 baselines.",
+      "remedy": "State the static supervised setting as the primary contribution, frame SAM and other modalities as hypotheses, and ideally add a larger distractor-memory experiment for the central scaling claim.",
+      "would_change_judgment": "Moderately. Better scope alone would improve clarity; a larger-memory result would materially strengthen significance."
+    },
+    {
+      "id": "dicn-e7",
+      "kind": "weakness",
+      "claim": "Several details needed to reproduce the approximate-learning comparison are absent.",
+      "location": "Sections 3.1 and 5.3-5.5, pages 5, 7-8.",
+      "observation": "The manuscript specifies Adam learning rate, batch size, embedding dimensions, and cluster counts, but does not give the chosen augmentation U and m, the actual Top-K and Sample-K cluster budgets, a fully specified sampling probability, or the final hash/tree hyperparameters used to match speed. Artificial questions and TransE preparation are only briefly described. Tables contain no run-to-run variation.",
+      "consequence": "A reader can implement the broad idea but cannot reconstruct the reported approximation or verify the small differences among sampling configurations from the manuscript alone.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility of the reported empirical comparison; absence of supplied code is not taken as proof that no code exists.",
+      "remedy": "Provide a parameter table, exact sampling rule and preprocessing/artificial-question protocol, with repeated-run results for the key comparisons.",
+      "would_change_judgment": "A reproducible protocol and stable effect estimates would increase confidence; by themselves they would not resolve the runtime gap."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "eugr",
+      "evidence_id": "dicn-e1",
+      "type": "scope",
+      "challenge": "Confirmed: equations (2)-(4) and the correct-fact insertion paragraph on page 4, together with the fixed-TransE NLL model in Section 5.2 on page 7, specify a coherent supervised conditional training step. The empirical support in Table 1, page 8, is 62.2% versus 59.5% under exact retrieval. I agree that a new search algorithm or theorem is unnecessary for this contribution. Retain your fixed-memory and supporting-fact-supervision boundary: this coherence alone does not establish reliable approximate retrieval throughout learning or practical acceleration, and Table 2 reaches at best 53.1%. The positive assessment is sound within its stated scope; no factual correction requested.",
+      "response": "Upheld within the original boundary. Equations (2)-(4), correct-fact insertion on page 4, and Section 5.2 on page 7 establish the supervised conditional objective for a fixed memory. Table 1 supplies a positive exact-search result, but neither coherence nor that comparison establishes approximate retrieval recall across training. I retain the positive assessment as a research possibility with an intelligible learning mechanism, while leaving approximate-search reliability and speed to their separate evidence items. No scope extension or score change follows from this confirmation.",
+      "resolution": "upheld"
+    },
+    {
+      "from_persona": "eugr",
+      "evidence_id": "dicn-e4",
+      "type": "factual",
+      "challenge": "Confirmed against Section 5.5 on page 8 and Tables 1-2: the approximately 5X claim is tied to 20,000 versus 108,442 fact accesses, while no wall-clock, hardware, index-construction or memory-size measurements are presented. Page 5 counts centroid dot products although candidate fact scoring is also required by equation (4). The 16-68 epoch range in Table 2 further prevents candidate counts alone from determining time to convergence. Your wording correctly distinguishes missing evidence from proof that HMNs cannot be faster. From a practical-utility perspective this remains the strongest negative because the 53.1% approximate accuracy is 6.4 points below full softmax. An accuracy-time frontier is a proportionate remedy; dynamic-memory experiments or modern baselines are unnecessary to settle this specific issue.",
+      "response": "Upheld. Candidate-count reduction is real evidence of reduced fact-scoring work, and a plausible basis for acceleration; the missing quantities prevent verification of fivefold end-to-end speedup. Equation (4) and Section 3.1 require both candidate scoring and centroid search. Table 2 demonstrates variation among approximate-training epoch counts, not that HMN is slower than full softmax in elapsed time. The remedy remains measurements of the static supervised setup, including an accuracy-time frontier and memory-size scaling; dynamic memory and modern baselines are unnecessary. This confirms the central evidence gap without converting it into an algorithmic impossibility claim.",
+      "resolution": "upheld"
+    }
+  ]
+}

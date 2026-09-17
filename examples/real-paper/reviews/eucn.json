@@ -1,0 +1,115 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eucn",
+  "model": "GPT-6-family Codex; exact deployment unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 4,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read complete manuscript.txt and visually inspected all ten rendered PDF pages, including equations (1)-(8), Figure 1 and Tables 1-2. Verified the frozen PDF SHA-256.",
+    "Covered abstract, Sections 1-6 and references. No supplement, code or raw results supplied; unavailable material is not itself evidence of a defect.",
+    "Competence: memory networks, approximate retrieval and supervised factoid QA. External priority and implementation performance unverified. Retrospective ICLR 2017 assessment without modern baseline demands.",
+    "Fresh isolated first-pass context; no other reviews, human reviews, source directory or coordinator conclusions read."
+  ],
+  "score_reason": "5: Marginally below acceptance threshold. Learning queries with retrieved-subset softmax is a useful exploratory direction, supported by an exact-selection accuracy improvement and informative approximate-retrieval comparisons. However, the central practical contribution is scalable training and inference, while the 5X benefit is inferred from fact accesses without measured end-to-end costs. The best approximate version loses 6.4 percentage points against full softmax on a restricted 108,442-cell memory. The usefulness of this tradeoff therefore remains insufficiently demonstrated. A measured favorable tradeoff in a larger-memory setting could move this contribution above threshold; state-of-the-art QA accuracy is not required. Cross-examination confirms the observed accuracy improvement without attributing its cause to gradient concentration or bias reduction. Reduced fact access is supported; practical end-to-end runtime benefit is unresolved rather than disproven.",
+  "change_reason": "Score remains 5 after both checks. They confirm the bounded empirical strength and the central missing runtime evidence, clarifying mechanism and runtime scope without introducing evidence that changes the balance of demonstrated utility and unresolved scalability.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "eucn-s1",
+      "kind": "strength",
+      "claim": "Retrieved-subset training is a concrete useful alternative to full softmax in the tested fixed-memory reader.",
+      "location": "Sections 3 and 5.2-5.4; equations (3)-(4); Table 1; Figure 1.",
+      "observation": "The method learns question embeddings with fixed TransE facts, inserts the supervised correct fact during training, and normalizes over retrieved candidates shared across the minibatch. Exact 10-MIPS reports 62.2% test accuracy versus 59.5% for full softmax, with average softmax size 1,290 versus 108,442. Figure 1 shows similar convergence in epochs.",
+      "consequence": "This supports training a reader with selected high-scoring negatives. The mechanism is clearly inspectable, and no decisive correctness defect is apparent in this supervised fixed-memory setting.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Single-task reported comparison; exact MIPS still scans memory, and the figure does not measure elapsed time.",
+      "remedy": "",
+      "would_change_judgment": "Removing the controlled exact-selection improvement would weaken the principal positive evidence."
+    },
+    {
+      "id": "eucn-s2",
+      "kind": "strength",
+      "claim": "Approximate-reader comparisons provide useful design guidance in the evaluated setting.",
+      "location": "Section 5.5; Tables 1-2; Section 3.1.",
+      "observation": "At approximately 20,000 fact accesses, clustering reports 51.5% accuracy versus 32.4% for PCA-Tree and 40.2% for WTA-Hash. With 2,000 clusters, Top-K plus Sample-K reaches 53.1% versus 51.5% for Top-K alone. Random-block variants do not improve the best result.",
+      "consequence": "The comparison demonstrates that retrieval choice matters during learning and motivates cluster sampling. Reporting failed alternatives and convergence epochs makes this a useful exploratory study.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Observed rankings at the reported access budget, not universal superiority or a new approximate-search algorithm. External novelty priority unverified.",
+      "remedy": "",
+      "would_change_judgment": "Unstable rankings would reduce the actionable empirical contribution."
+    },
+    {
+      "id": "eucn-w1",
+      "kind": "weakness",
+      "claim": "The reported computational proxy does not establish practical speedup.",
+      "location": "Section 3.1 following equation (8); Section 5.5 final paragraphs; Figure 1 and Table 2.",
+      "observation": "Section 5.5 derives 5X speedup from about 20,000 fact accesses versus 108,442 cells. No elapsed training/inference times, hardware description, index costs or memory-size scaling curve are reported. Convergence lengths vary: 2,000-cluster Top-K takes 22 epochs, versus 26 for Top-K plus Sample-K. Figure 1 is indexed by epochs.",
+      "consequence": "Access reduction alone does not establish wall-clock speed or total time to useful accuracy. The evidence cannot establish the practical benefit purchased by the accuracy loss, despite scalability being the central capability.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Support for end-to-end speed; approximate search can still reduce the number of scored facts.",
+      "remedy": "Measure training and inference costs including retrieval and amortized index construction, and give accuracy-versus-time comparisons across a small range of search budgets or memory sizes.",
+      "would_change_judgment": "A favorable measured tradeoff, particularly at larger memory sizes, could raise the recommendation."
+    },
+    {
+      "id": "eucn-w2",
+      "kind": "weakness",
+      "claim": "The application experiment leaves the intended usefulness of general-purpose large-memory access unresolved.",
+      "location": "Section 5 opening; Section 5.1; Tables 1-2; Section 6.",
+      "observation": "The authors restrict memory to SimpleQuestions instead of the cited 10M/12M-fact settings and acknowledge that lexical filtering is efficient here. Best approximate accuracy is 53.1%, versus 59.5% for full softmax and 62.2% for exact 10-MIPS. No larger distractor memory or setting without usable lexical filtering is evaluated.",
+      "consequence": "The design plausibly removes a dataset-specific assumption, but the experiment does not demonstrate when that flexibility compensates for the 6.4-point loss against full softmax. Practical significance is therefore less established than the broad motivation.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Utility of approximate HMN for external knowledge bases. The exploratory goal makes absence of state-of-the-art QA accuracy acceptable; multiple modalities are not required.",
+      "remedy": "Demonstrate one setting aligned with the motivation, for example adding many distractor facts while measuring costs and accuracy, or narrow the conclusions to the evaluated proof of concept.",
+      "would_change_judgment": "A concrete larger-memory use case with a defensible tradeoff could move the score above threshold."
+    },
+    {
+      "id": "eucn-w3",
+      "kind": "weakness",
+      "claim": "Search configuration and uncertainty reporting limit reconstruction of the finer empirical conclusions.",
+      "location": "Sections 3.1 and 5.3-5.5; Tables 1-2.",
+      "observation": "Adam settings, batch size, dimensions, stopping rule and cluster counts are supplied, but selected augmentation U and m, top/sampled cluster counts, and final WTA/PCA configurations are not. Accuracy values have no seed variability. The best two 1,000-cluster strategies both attain 52.8%; several other differences are below one percentage point.",
+      "consequence": "Large observed gaps remain informative, but matched-budget comparisons are hard to reproduce and small configuration-level differences cannot be interpreted confidently.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility and precision, not evidence that results are wrong.",
+      "remedy": "Provide final search configurations and repeated runs or an appropriate uncertainty summary for close comparisons.",
+      "would_change_judgment": "Would improve confidence and reproducibility, but would not alone repair the missing practical scalability evidence."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "digr",
+      "evidence_id": "eucn-s1",
+      "type": "scope",
+      "challenge": "Confirmed within the stated scope: Equations (3)–(4), p. 4, define retrieved-subset normalization; Section 5.4, p. 7, explicitly adds other minibatch queries’ candidates; Table 1, p. 8, gives 62.2% versus 59.5% and average support 1,290 versus 108,442, while Figure 1 has an epoch axis. This supports a useful supervised fixed-memory training alternative. Please preserve the distinction between that empirical observation and the explanatory claim that concentrating on strongest-gradient cells causes the gain: p. 4 asserts the latter, but no gradient measurement or matched-size negative-selection control isolates it. The strength should credit the observed restricted-objective effect without identifying gradient bias reduction or hard-negative selection alone as its demonstrated cause.",
+      "response": "Agreed. I retain eucn-s1 as an observed performance result for supervised fixed-memory training. Equations (3)-(4), Section 5.4 and Table 1 establish candidate selection, minibatch union and the reported accuracy improvement; they do not isolate why it occurs. My phrase selected high-scoring negatives describes the implemented selection rule, not a proven causal explanation. Neither gradient concentration nor bias reduction is credited as experimentally established.",
+      "resolution": "upheld"
+    },
+    {
+      "from_persona": "digr",
+      "evidence_id": "eucn-w1",
+      "type": "factual",
+      "challenge": "Confirmed: Section 5.5, p. 8, links roughly 20,000 fact accesses to a 5X speedup, while Tables 1–2 and Figure 1 provide support sizes, accuracies and epochs rather than elapsed costs. Your 2,000-cluster 22-versus-26-epoch example matches Table 2, p. 9. Section 3.1, p. 5, additionally says a read requires only K centroid dot products, although Equation (4), p. 4, also requires scoring the selected memory rows. These facts justify insufficient evidence for practical end-to-end speedup; they do not establish that the speedup is absent or that extra epochs necessarily erase it. Your current scope makes that distinction correctly. From a reliability perspective, can the final formulation explicitly retain reduced fact access as established while treating end-to-end runtime benefit as unresolved?",
+      "response": "Agreed. The reduced fact-access count is established by the reported approximately 20,000 accessed facts against 108,442 cells in Section 5.5 and Table 1. The practical end-to-end runtime benefit remains unresolved because those counts exclude unreported search and implementation costs and do not measure total convergence time. The 22-versus-26 epochs compare approximate configurations only; they do not establish extra epochs relative to full softmax or show that any speedup disappears. I retain the weakness as an evidence gap, not a negative runtime result.",
+      "resolution": "upheld"
+    }
+  ]
+}

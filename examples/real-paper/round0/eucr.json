@@ -1,0 +1,96 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eucr",
+  "model": "GPT-6 family Codex (exact deployment identifier unavailable)",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 4,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 2,
+    "evidence": 2,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read all ten pages of manuscript.txt, including Sections 1–6 and references; visually inspected rendered pages 4, 5, 7, 8, and 9, including equations, Figure 1, and Tables 1–2. Verified frozen PDF SHA-256.",
+    "No supplemental material, executable implementation, raw results, or independent repetition was supplied or inspected. No external papers or historical reviews were accessed. Competence covers memory-network training, approximate retrieval, and empirical QA; external priority and source accuracy are not independently verified."
+  ],
+  "score_reason": "Marginally below the ICLR 2017 acceptance threshold. The controlled exact-retrieval experiment establishes a useful supervised truncated-softmax result, and the approximate-retrieval comparisons offer practical guidance. However, the paper’s main practical promise is scalable training and inference: the reported 5X figure is tied to memory-access counts, without reproducible wall-clock measurements or a memory-size sweep, while the best approximate result loses 6.4 accuracy points against full softmax. Limited specification and uncertainty reporting further weaken confidence in the operating tradeoff. This judgment concerns the paper’s own static-memory factoid-QA setting and does not require modern baselines or a state-of-the-art QA result.",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "EUCR-S1",
+      "kind": "strength",
+      "claim": "Exact top-K training provides a useful accuracy improvement under a controlled reader comparison.",
+      "location": "Sections 5.2–5.4; Table 1 and Figure 1, pages 7–8",
+      "observation": "The same fixed TransE memory and learned bag-of-words query setup obtains 62.2% with 10-MIPS versus 59.5% with full softmax; average training softmax size is 1,290 versus 108,442. Figure 1 shows comparable convergence in epochs. The text explicitly acknowledges that exact retrieval remains linear.",
+      "consequence": "This supports the feasibility and practical modeling value of supervised candidate-restricted learning, separate from the approximate-search speed claim.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Reported SimpleQuestions setup; improvement magnitude has no repeated-run uncertainty estimate.",
+      "remedy": "",
+      "would_change_judgment": "A failed controlled replication would materially reduce my assessment; a successful repetition would strengthen it."
+    },
+    {
+      "id": "EUCR-S2",
+      "kind": "strength",
+      "claim": "The approximate-search and sampling comparisons give actionable evidence within the chosen setting.",
+      "location": "Section 5.5; Tables 1–2, pages 8–9",
+      "observation": "At stated roughly matched access/speed budgets, clustering reaches 51.5%, versus 40.2% for WTA-Hash and 32.4% for PCA-Tree. Combining Top-K with Sample-K obtains 52.8% and 53.1% for 1,000 and 2,000 clusters, versus 50.2% and 51.5% using Top-K alone; convergence epochs are also shown.",
+      "consequence": "The experiments identify an effective index family and a useful exploration modification, rather than merely asserting that approximate search can replace a dense reader.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "The reported algorithms and selected operating points; this does not establish superiority across all tuning budgets or data distributions.",
+      "remedy": "",
+      "would_change_judgment": "Robustness across repeats and more clearly specified matching budgets would increase confidence in this positive finding."
+    },
+    {
+      "id": "EUCR-W1",
+      "kind": "weakness",
+      "claim": "The central practical speed and scaling benefit is incompletely measured.",
+      "location": "Section 3.1 page 5; Section 5.1 page 6; Section 5.5 page 8; Figure 1 and Table 2",
+      "observation": "Section 5.5 ties approximately 20,000 accessed facts per query to a 5X speedup; no training or inference wall-clock timings, hardware description, index-construction cost, or memory-size sweep are reported. The memory has 108,442 entries, while the motivating 10M/12M fact settings are not tested. Epoch counts vary substantially, including 16 versus 68 in Table 2. Section 3.1 counts centroid dot products without fully specifying subsequent candidate-scoring cost.",
+      "consequence": "A reduction in visited facts does not by itself establish total time to a useful trained model or inference speed after search overhead, so the main utility claim remains uncertain.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Insufficiency of presented measurement, not evidence that the method cannot accelerate computation.",
+      "remedy": "Report training time per epoch and to convergence, inference latency, and index overhead under a stated implementation/hardware setup; add a modest memory-size sweep and accurately delimit the measured 5X claim.",
+      "would_change_judgment": "Clear reproducible end-to-end acceleration with an explicit accuracy tradeoff would be the strongest route to an above-threshold score."
+    },
+    {
+      "id": "EUCR-W2",
+      "kind": "weakness",
+      "claim": "The accuracy cost and failure mechanism of approximate retrieval are not sufficiently characterized to establish a dependable operating point.",
+      "location": "Section 3 page 4; Sections 5.1 and 5.5; Tables 1–2",
+      "observation": "The best approximate result is 53.1%, versus 59.5% full softmax and 62.2% exact 10-MIPS. Training always inserts the correct fact when retrieval misses it, but inference has no such supervision. The paper does not report candidate recall, retrieval misses versus ranking errors, or an accuracy-versus-compute curve; all evaluated questions also favor the keyword matching heuristic discussed in Section 5.1.",
+      "consequence": "The reader learns successfully, but the source of the residual loss and when this tradeoff would be useful remain unclear. A single budget point cannot show whether a smaller accuracy loss is available at a still-useful speed gain.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Static-memory supervised factoid QA; no claim of leakage or invalid use of training labels is implied. General modality independence remains a plausible architectural motivation rather than demonstrated utility.",
+      "remedy": "Measure supporting-fact recall and final accuracy over several retrieval budgets, separating approximate-search misses from learned ranking errors; delimit the generality claim to what is tested.",
+      "would_change_judgment": "An attractive measured tradeoff and a retrieval-error diagnosis would substantially strengthen significance and evidence."
+    },
+    {
+      "id": "EUCR-W3",
+      "kind": "weakness",
+      "claim": "Important stochastic and implementation details remain too incomplete for a dependable reproduction of the approximate-reader comparison.",
+      "location": "Sections 3.1, 5.3, and 5.5; Tables 1–2",
+      "observation": "The manuscript specifies Adam, batch size, embedding dimensions, cluster counts, and stopping rule, but not the selected augmentation parameters U and m, exact candidate/sampling allocations, full tuned tree/hash settings, or detailed artificial-question construction. It supplies single accuracies without run counts or variability. The 0.3-point advantage of the combined strategy over Sample-K alone is therefore not established as robust.",
+      "consequence": "The main broad patterns are informative, but reproducing the speed matching and selecting the best strategy from small differences is difficult.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility and robustness of reported comparisons; this does not refute the larger accuracy differences between index families.",
+      "remedy": "Provide the complete chosen configurations and data-construction recipe, and report repeated-run variation for the principal comparisons.",
+      "would_change_judgment": "These additions would raise reproducibility and confidence, although alone they would not resolve the central timing and utility gap."
+    }
+  ],
+  "challenges": []
+}

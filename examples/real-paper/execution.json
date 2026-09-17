@@ -1,0 +1,56 @@
+{
+  "started_at": "2026-09-17T04:55:18.013974+00:00",
+  "finished_at": "2026-09-17T05:22:08.261215+00:00",
+  "fresh_first_pass_contexts": 16,
+  "reviewer_agent_names": [
+    "real_dugr",
+    "real_eucr",
+    "real_eugr",
+    "real_ducr",
+    "real_eigr",
+    "real_dicr",
+    "real_digr",
+    "real_eicr",
+    "real_ducn",
+    "real_eugn",
+    "real_eucn",
+    "real_dugn",
+    "real_eicn",
+    "real_dign",
+    "real_dicn",
+    "real_eign"
+  ],
+  "max_concurrent_workers": 3,
+  "first_pass_outputs": 16,
+  "opposite_pairs": 8,
+  "outgoing_packages": 16,
+  "positive_checks": 16,
+  "negative_checks": 16,
+  "recorded_responses": 32,
+  "additional_challenge_rounds": 0,
+  "score_changes": 0,
+  "final_score_counts": {
+    "5": 14,
+    "6": 2
+  },
+  "challenge_resolutions": {
+    "upheld": 24,
+    "narrowed": 8
+  },
+  "recognized_paper_flags": 0,
+  "model_families": [
+    "GPT-6"
+  ],
+  "exact_deployment_version_available": false,
+  "token_cost_telemetry_available": false,
+  "filesystem_isolation_enforced": false,
+  "human_outcomes_withheld_from_reviewer_prompts": true,
+  "source_manuscript_anonymized": false,
+  "coordinator_had_seen_human_outcomes": true,
+  "published_prompt_paths_portabilized": true,
+  "original_first_pass_json_hashes_verified": true,
+  "initial_evidence_preserved": true,
+  "incoming_challenge_text_matches_recorded_response": true,
+  "acceptance_probability": null,
+  "historical_anchor_ranking_performed": false
+}

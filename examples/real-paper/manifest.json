@@ -1,0 +1,876 @@
+{
+  "schema_version": "review16.panel.v1",
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "created_at": "2026-09-17T04:55:18.013974+00:00",
+  "manuscript": "materials/manuscript.pdf",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "original_manuscript": "https://raw.githubusercontent.com/allenai/PeerRead/9bb37751781a900cee9e74ec3105997732c8e8e5/data/iclr_2017/dev/pdfs/673.pdf",
+  "manuscript_name": "Hierarchical Memory Networks \u2014 archived ICLR 2017 submission",
+  "venue_config": {
+    "venue": "ICLR",
+    "year": 2017,
+    "track": "Conference, retrospective manuscript assessment",
+    "rubric_source": "https://github.com/openreview/openreview-scripts/blob/ac40cf9121585c4beb75ada04099e83c20b260ee/Legacy/venues/ICLR.cc/2017/conference/process/submissionProcess_conference.template#L152-L165",
+    "retrieved_at": "2026-09-17",
+    "provisional": false,
+    "score_scale": {
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "labels": {
+        "10": "Top 5% of accepted papers, seminal paper",
+        "9": "Top 15% of accepted papers, strong accept",
+        "8": "Top 50% of accepted papers, clear accept",
+        "7": "Good paper, accept",
+        "6": "Marginally above acceptance threshold",
+        "5": "Marginally below acceptance threshold",
+        "4": "Ok but not good enough - rejection",
+        "3": "Clear rejection",
+        "2": "Strong rejection",
+        "1": "Trivial or wrong"
+      }
+    }
+  },
+  "taxonomy": {
+    "version": "0.1.0",
+    "basis": "Four declared binary review preferences; their Cartesian product defines exactly sixteen related types.",
+    "validation_status": "Designed taxonomy; psychometric validity, axis separability and review benefit not yet established.",
+    "shared_floor": "Correctness, honest evidence, applicable venue standards and no fabricated objections apply equally to every pole. Preference never excuses invalidity.",
+    "axes": [
+      {
+        "id": "evidence",
+        "name": "Evidence preference",
+        "zh": "\u8bc1\u636e\u504f\u597d",
+        "poles": {
+          "D": {
+            "name": "Deductive",
+            "zh": "\u6f14\u7ece",
+            "question": "Which explicit assumptions and valid derivations support the central claim?"
+          },
+          "E": {
+            "name": "Empirical",
+            "zh": "\u5b9e\u8bc1",
+            "question": "Which observations, controls and uncertainty estimates support the central claim?"
+          }
+        }
+      },
+      {
+        "id": "contribution",
+        "name": "Contribution preference",
+        "zh": "\u8d21\u732e\u76ee\u6807",
+        "poles": {
+          "I": {
+            "name": "Insight",
+            "zh": "\u89e3\u91ca",
+            "question": "What does this change about our understanding of the mechanism?"
+          },
+          "U": {
+            "name": "Utility",
+            "zh": "\u6548\u7528",
+            "question": "What meaningful problem does this solve, compared with realistic alternatives?"
+          }
+        }
+      },
+      {
+        "id": "scope",
+        "name": "Scope preference",
+        "zh": "\u9002\u7528\u8303\u56f4",
+        "poles": {
+          "G": {
+            "name": "General",
+            "zh": "\u901a\u7528",
+            "question": "Which stated conditions support transfer across settings, and where does it stop?"
+          },
+          "C": {
+            "name": "Contextual",
+            "zh": "\u60c5\u5883",
+            "question": "How well does the claim hold in the specific setting, including its constraints?"
+          }
+        }
+      },
+      {
+        "id": "risk",
+        "name": "Research-risk preference",
+        "zh": "\u7814\u7a76\u98ce\u9669\u504f\u597d",
+        "poles": {
+          "N": {
+            "name": "Novelty-seeking",
+            "zh": "\u63a2\u7d22",
+            "question": "What new research possibility is established, beyond a fashionable narrative?"
+          },
+          "R": {
+            "name": "Reliability-seeking",
+            "zh": "\u7a33\u5065",
+            "question": "Which stress tests, checks or replications establish that the stated result is dependable?"
+          }
+        }
+      }
+    ],
+    "personas": [
+      {
+        "id": "dign",
+        "code": "DIGN",
+        "name": "Architect",
+        "name_zh": "\u8303\u5f0f\u67b6\u6784\u5e08",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "I",
+          "scope": "G",
+          "risk": "N"
+        },
+        "domains": [
+          "learning theory",
+          "causal ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A new formal abstraction that explains a broad class of learning problems.",
+        "watch_for": "Mistaking elegant notation for a new explanation.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "eign",
+          "dugn",
+          "dicn",
+          "digr"
+        ],
+        "opposite": "eucr"
+      },
+      {
+        "id": "digr",
+        "code": "DIGR",
+        "name": "Guardian",
+        "name_zh": "\u516c\u7406\u5b88\u95e8\u4eba",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "I",
+          "scope": "G",
+          "risk": "R"
+        },
+        "domains": [
+          "learning theory",
+          "statistical learning"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A reusable explanatory result whose assumptions and boundaries are defensible.",
+        "watch_for": "Unstated regularity assumptions or an unjustified transfer of a theorem.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "eigr",
+          "dugr",
+          "dicr",
+          "dign"
+        ],
+        "opposite": "eucn"
+      },
+      {
+        "id": "dicn",
+        "code": "DICN",
+        "name": "Detective",
+        "name_zh": "\u673a\u5236\u63a2\u6848\u8005",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "I",
+          "scope": "C",
+          "risk": "N"
+        },
+        "domains": [
+          "mechanistic interpretability",
+          "causal ML",
+          "AI for science"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A new, precisely delimited explanation of an important phenomenon.",
+        "watch_for": "Claiming identification where only an illustrative mechanism was proved.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "eicn",
+          "ducn",
+          "dign",
+          "dicr"
+        ],
+        "opposite": "eugr"
+      },
+      {
+        "id": "dicr",
+        "code": "DICR",
+        "name": "Auditor",
+        "name_zh": "\u8bc1\u660e\u5ba1\u8ba1\u5e08",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "I",
+          "scope": "C",
+          "risk": "R"
+        },
+        "domains": [
+          "theory",
+          "formal methods for ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "An exact argument for the actual conditions in the manuscript.",
+        "watch_for": "Boundary cases, quantifier errors and claims stronger than the derivation.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "eicr",
+          "ducr",
+          "digr",
+          "dicn"
+        ],
+        "opposite": "eugn"
+      },
+      {
+        "id": "dugn",
+        "code": "DUGN",
+        "name": "Inventor",
+        "name_zh": "\u7b97\u6cd5\u53d1\u660e\u5bb6",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "U",
+          "scope": "G",
+          "risk": "N"
+        },
+        "domains": [
+          "optimization",
+          "algorithms for ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A new algorithmic principle with general, demonstrated problem-solving value.",
+        "watch_for": "A renamed classical algorithm without a consequential difference.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "eugn",
+          "dign",
+          "ducn",
+          "dugr"
+        ],
+        "opposite": "eicr"
+      },
+      {
+        "id": "dugr",
+        "code": "DUGR",
+        "name": "Engineer",
+        "name_zh": "\u4f18\u5316\u5de5\u7a0b\u5e08",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "U",
+          "scope": "G",
+          "risk": "R"
+        },
+        "domains": [
+          "optimization",
+          "efficient ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A useful general method with sound complexity and convergence guarantees.",
+        "watch_for": "Guarantees that ignore the cost or feasibility of their assumptions.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "eugr",
+          "digr",
+          "ducr",
+          "dugn"
+        ],
+        "opposite": "eicn"
+      },
+      {
+        "id": "ducn",
+        "code": "DUCN",
+        "name": "Strategist",
+        "name_zh": "\u8bbe\u8ba1\u7b56\u7565\u5e08",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "U",
+          "scope": "C",
+          "risk": "N"
+        },
+        "domains": [
+          "model-based RL",
+          "decision-focused learning",
+          "AI for science"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A carefully reasoned new design for a consequential constrained problem.",
+        "watch_for": "A clever construction whose assumptions cannot hold in the target setting.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "eucn",
+          "dicn",
+          "dugn",
+          "ducr"
+        ],
+        "opposite": "eigr"
+      },
+      {
+        "id": "ducr",
+        "code": "DUCR",
+        "name": "Verifier",
+        "name_zh": "\u9a8c\u8bc1\u5de5\u7a0b\u5e08",
+        "axis_values": {
+          "evidence": "D",
+          "contribution": "U",
+          "scope": "C",
+          "risk": "R"
+        },
+        "domains": [
+          "safe RL",
+          "formal verification",
+          "robust control"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A practical decision rule whose guarantee matches the operating conditions.",
+        "watch_for": "A safety or feasibility claim that holds only for a different system.",
+        "questions": [
+          "Which explicit assumptions and valid derivations support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "eucr",
+          "dicr",
+          "dugr",
+          "ducn"
+        ],
+        "opposite": "eign"
+      },
+      {
+        "id": "eign",
+        "code": "EIGN",
+        "name": "Explorer",
+        "name_zh": "\u89c4\u5f8b\u63a2\u7d22\u8005",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "I",
+          "scope": "G",
+          "risk": "N"
+        },
+        "domains": [
+          "representation learning",
+          "scaling laws"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A surprising empirical regularity that changes a general understanding.",
+        "watch_for": "Cherry-picked regularities or speculation presented as an established law.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "dign",
+          "eugn",
+          "eicn",
+          "eigr"
+        ],
+        "opposite": "ducr"
+      },
+      {
+        "id": "eigr",
+        "code": "EIGR",
+        "name": "Curator",
+        "name_zh": "\u8bc1\u636e\u7b56\u5c55\u4eba",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "I",
+          "scope": "G",
+          "risk": "R"
+        },
+        "domains": [
+          "evaluation methodology",
+          "empirical ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A replicable body of evidence that establishes a broadly useful explanation.",
+        "watch_for": "A pooled trend masking task-level failures or a data-dependent analysis.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "digr",
+          "eugr",
+          "eicr",
+          "eign"
+        ],
+        "opposite": "ducn"
+      },
+      {
+        "id": "eicn",
+        "code": "EICN",
+        "name": "Hunter",
+        "name_zh": "\u73b0\u8c61\u730e\u624b",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "I",
+          "scope": "C",
+          "risk": "N"
+        },
+        "domains": [
+          "NLP",
+          "vision",
+          "mechanistic interpretability"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A new, well-observed phenomenon within a clearly defined model or task.",
+        "watch_for": "Anecdotes generalized beyond the measured regime.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "dicn",
+          "eucn",
+          "eign",
+          "eicr"
+        ],
+        "opposite": "dugr"
+      },
+      {
+        "id": "eicr",
+        "code": "EICR",
+        "name": "Experimenter",
+        "name_zh": "\u5b9e\u9a8c\u4fa6\u63a2",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "I",
+          "scope": "C",
+          "risk": "R"
+        },
+        "domains": [
+          "causal evaluation",
+          "NLP",
+          "vision"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "Controlled experiments that isolate the explanation in the claimed setting.",
+        "watch_for": "Confounded ablations, leakage and comparisons with mismatched conditions.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What does this change about our understanding of the mechanism?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "dicr",
+          "eucr",
+          "eigr",
+          "eicn"
+        ],
+        "opposite": "dugn"
+      },
+      {
+        "id": "eugn",
+        "code": "EUGN",
+        "name": "Pioneer",
+        "name_zh": "\u524d\u6cbf\u5f00\u62d3\u8005",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "U",
+          "scope": "G",
+          "risk": "N"
+        },
+        "domains": [
+          "foundation models",
+          "generative AI",
+          "agents"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A new capability with credible usefulness across meaningful tasks.",
+        "watch_for": "An impressive selected demo with no adequate capability evaluation.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "dugn",
+          "eign",
+          "eucn",
+          "eugr"
+        ],
+        "opposite": "dicr"
+      },
+      {
+        "id": "eugr",
+        "code": "EUGR",
+        "name": "Builder",
+        "name_zh": "\u57fa\u51c6\u5de5\u7a0b\u5e08",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "U",
+          "scope": "G",
+          "risk": "R"
+        },
+        "domains": [
+          "ML systems",
+          "benchmarks",
+          "efficient ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "Dependable practical gains under fair, reproducible multi-setting evaluation.",
+        "watch_for": "Unmatched compute, hidden costs, stale baselines or evaluation leakage.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "Which stated conditions support transfer across settings, and where does it stop?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "dugr",
+          "eigr",
+          "eucr",
+          "eugn"
+        ],
+        "opposite": "dicn"
+      },
+      {
+        "id": "eucn",
+        "code": "EUCN",
+        "name": "Designer",
+        "name_zh": "\u4ea4\u4e92\u5148\u950b",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "U",
+          "scope": "C",
+          "risk": "N"
+        },
+        "domains": [
+          "human-centered AI",
+          "robotics",
+          "AI for science"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "A new useful capability demonstrated under the constraints of its users or domain.",
+        "watch_for": "Proxy success mistaken for actual usefulness or unsupported user claims.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "What new research possibility is established, beyond a fashionable narrative?"
+        ],
+        "neighbors": [
+          "ducn",
+          "eicn",
+          "eugn",
+          "eucr"
+        ],
+        "opposite": "digr"
+      },
+      {
+        "id": "eucr",
+        "code": "EUCR",
+        "name": "Steward",
+        "name_zh": "\u90e8\u7f72\u5b88\u62a4\u8005",
+        "axis_values": {
+          "evidence": "E",
+          "contribution": "U",
+          "scope": "C",
+          "risk": "R"
+        },
+        "domains": [
+          "robustness",
+          "AI safety",
+          "deployed ML"
+        ],
+        "domain_affinity_status": "design_hypothesis",
+        "values": "Reliable value in the actual operating context, including consequential failures.",
+        "watch_for": "Average gains concealing brittle behavior or an unmeasured deployment claim.",
+        "questions": [
+          "Which observations, controls and uncertainty estimates support the central claim?",
+          "What meaningful problem does this solve, compared with realistic alternatives?",
+          "How well does the claim hold in the specific setting, including its constraints?",
+          "Which stress tests, checks or replications establish that the stated result is dependable?"
+        ],
+        "neighbors": [
+          "ducr",
+          "eicr",
+          "eugr",
+          "eucn"
+        ],
+        "opposite": "dign"
+      }
+    ],
+    "challenge_pairs": [
+      [
+        "dign",
+        "eucr"
+      ],
+      [
+        "digr",
+        "eucn"
+      ],
+      [
+        "dicn",
+        "eugr"
+      ],
+      [
+        "dicr",
+        "eugn"
+      ],
+      [
+        "dugn",
+        "eicr"
+      ],
+      [
+        "dugr",
+        "eicn"
+      ],
+      [
+        "ducn",
+        "eigr"
+      ],
+      [
+        "ducr",
+        "eign"
+      ]
+    ]
+  },
+  "max_parallel": 3,
+  "tasks": [
+    {
+      "persona_id": "dign",
+      "batch": 1,
+      "prompt": "tasks/dign.md",
+      "template": "templates/dign.json",
+      "review": "reviews/dign.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "8aeae95ddd56dfae4a6d9118ef6c0ecd4b945af03645fc4c94f0af3ea7329765",
+      "original_local_prompt_sha256": "1f4738d275f4cc6cf34ab300f634594ef3efc5e2436799da6a83507cc60362f4"
+    },
+    {
+      "persona_id": "digr",
+      "batch": 1,
+      "prompt": "tasks/digr.md",
+      "template": "templates/digr.json",
+      "review": "reviews/digr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "d976eed47a1748cbaaa322f7ebc90b34a1c5cd72d76a2c8560a746de72544c0b",
+      "original_local_prompt_sha256": "a57c03029375cf5bd53be06520ea6b26ce908934f5e210433bf3b0bf7f8f5735"
+    },
+    {
+      "persona_id": "dicn",
+      "batch": 1,
+      "prompt": "tasks/dicn.md",
+      "template": "templates/dicn.json",
+      "review": "reviews/dicn.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "9ce73ecac944bf1d93bfad0569ecca28bfbebec828e81f2c30d4bd35f34e232f",
+      "original_local_prompt_sha256": "c87483d0ad0ceb7478c37c08f76642bbc4aef20549caa6eaa75f3a59371794c5"
+    },
+    {
+      "persona_id": "dicr",
+      "batch": 2,
+      "prompt": "tasks/dicr.md",
+      "template": "templates/dicr.json",
+      "review": "reviews/dicr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "e79e08d90b745b3d0878957b0d4116c823fa0a316354fb12239a5134f88eaa2d",
+      "original_local_prompt_sha256": "4e289c8fd32dc0a65ba2d43e7c1b03fe0c18b40dc2d88d7bed0fe6b03b062bff"
+    },
+    {
+      "persona_id": "dugn",
+      "batch": 2,
+      "prompt": "tasks/dugn.md",
+      "template": "templates/dugn.json",
+      "review": "reviews/dugn.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "f16e1ea41683c9e64db15d9d97cf03cfd3aa161191b5de7cc356c80f8a3f67cd",
+      "original_local_prompt_sha256": "5af75c676dd07df1f52171603708ef9027ce031829f168ec32bfe58d06a7a6e9"
+    },
+    {
+      "persona_id": "dugr",
+      "batch": 2,
+      "prompt": "tasks/dugr.md",
+      "template": "templates/dugr.json",
+      "review": "reviews/dugr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "a6f4cc0d54d5791cc01ee841000fdc7296d085af5fbbf933ac25d2ef00d14f62",
+      "original_local_prompt_sha256": "05ec63b0ee5e2791071d41fa39210656b4fe7b9a33b5b2e6d45b6f9f83ece1e6"
+    },
+    {
+      "persona_id": "ducn",
+      "batch": 3,
+      "prompt": "tasks/ducn.md",
+      "template": "templates/ducn.json",
+      "review": "reviews/ducn.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "396cd3f889da2562793d45f6615b950e3a9198333e30bfe77c85bd68f2945622",
+      "original_local_prompt_sha256": "44849386460e87653b774b575ad84f3de9d2d46034322a7ea5f16fc1d1129813"
+    },
+    {
+      "persona_id": "ducr",
+      "batch": 3,
+      "prompt": "tasks/ducr.md",
+      "template": "templates/ducr.json",
+      "review": "reviews/ducr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "145717437a5a3c9861ae488d4f0d9c0a29c4c9e66b68efc06a5eaa22d811cd9f",
+      "original_local_prompt_sha256": "55f593223d8431a2a87d58399c06def4726dca55032ecc71c204551d9412073f"
+    },
+    {
+      "persona_id": "eign",
+      "batch": 3,
+      "prompt": "tasks/eign.md",
+      "template": "templates/eign.json",
+      "review": "reviews/eign.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "b7a8da5ed98e8ec65801442ef12cda3c72fda4d62a0f18c8488555c07125a067",
+      "original_local_prompt_sha256": "c7780872f12994e425f1c7d1f81401094094ac2829c61d2c947ba015360cd553"
+    },
+    {
+      "persona_id": "eigr",
+      "batch": 4,
+      "prompt": "tasks/eigr.md",
+      "template": "templates/eigr.json",
+      "review": "reviews/eigr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "5f7a8045616957ab772053d486bcf8a509dac3203efe6c38a66dcd2e971225ba",
+      "original_local_prompt_sha256": "a048dbe64c4087ce8bf0c10772c967a373e10db01c61c77c6153967c50953665"
+    },
+    {
+      "persona_id": "eicn",
+      "batch": 4,
+      "prompt": "tasks/eicn.md",
+      "template": "templates/eicn.json",
+      "review": "reviews/eicn.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "81c63c2988541341c978414ee4837a0e9358de4f8804af7d6c71cc32861a9503",
+      "original_local_prompt_sha256": "f87280210f2b293c5bf7cdc52dabd62e1714f96377eb8dfbb1fb184022068b51"
+    },
+    {
+      "persona_id": "eicr",
+      "batch": 4,
+      "prompt": "tasks/eicr.md",
+      "template": "templates/eicr.json",
+      "review": "reviews/eicr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "633ea6ea20c5985d36e7942cc2e2f6fe61d6202593bbea32eb7cb094ef8b38a7",
+      "original_local_prompt_sha256": "f2489884fca4a94f695f6e332c35af03fe0b34f163f9480af1f812663cc37742"
+    },
+    {
+      "persona_id": "eugn",
+      "batch": 5,
+      "prompt": "tasks/eugn.md",
+      "template": "templates/eugn.json",
+      "review": "reviews/eugn.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "9a104fa5e1a039b5d3ccadfa4b4b4f0e8e76b3ae85d37c29f81615c98d7b357e",
+      "original_local_prompt_sha256": "482cfd1ed0d3dc8c094a87c47b1f7e01880825b607fda91747be6e231d4b4071"
+    },
+    {
+      "persona_id": "eugr",
+      "batch": 5,
+      "prompt": "tasks/eugr.md",
+      "template": "templates/eugr.json",
+      "review": "reviews/eugr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "cc95ed4b6b93bf1e823a0616719a6771390f37c38b5096054d3780a84a2854b6",
+      "original_local_prompt_sha256": "6c556f13e3a226d948ea2fa7abe635daf7b65c433fe0d6f8d5fa1a9d7e80471a"
+    },
+    {
+      "persona_id": "eucn",
+      "batch": 5,
+      "prompt": "tasks/eucn.md",
+      "template": "templates/eucn.json",
+      "review": "reviews/eucn.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "f4d1de64352faac102e724e64027acafdf2033f1afbb5697670254d3b562443e",
+      "original_local_prompt_sha256": "972f1f09e990d2f5a1570b588e4ccae1b3d6333a5c9b7119ffc430dba9d00e5e"
+    },
+    {
+      "persona_id": "eucr",
+      "batch": 6,
+      "prompt": "tasks/eucr.md",
+      "template": "templates/eucr.json",
+      "review": "reviews/eucr.json",
+      "status": "cross_examination_complete",
+      "prompt_sha256": "ee1fc4043414f25826c3b19caae0a93ba52803a998618ee46b6a5b41eb74ace0",
+      "original_local_prompt_sha256": "f2e999ee4ca16fb28f226a25ba3f93617fb9c85d3a0b6be6f4c97ec4f5dbe554"
+    }
+  ],
+  "challenge_pairs": [
+    [
+      "dign",
+      "eucr"
+    ],
+    [
+      "digr",
+      "eucn"
+    ],
+    [
+      "dicn",
+      "eugr"
+    ],
+    [
+      "dicr",
+      "eugn"
+    ],
+    [
+      "dugn",
+      "eicr"
+    ],
+    [
+      "dugr",
+      "eicn"
+    ],
+    [
+      "ducn",
+      "eigr"
+    ],
+    [
+      "ducr",
+      "eign"
+    ]
+  ],
+  "execution": "completed_host_declared_16_fresh_contexts_one_cross_examination_round",
+  "isolation_verified": false,
+  "synthetic": false
+}

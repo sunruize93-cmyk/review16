@@ -1,0 +1,18 @@
+{
+  "from_persona": "eigr",
+  "to_persona": "ducn",
+  "checks": [
+    {
+      "evidence_id": "ducn-e1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed within your stated supervised, fixed-memory scope. Equations 3–4 and the gold-fact insertion paragraph on p. 4 define a restricted softmax whose selected logits can train the query encoder while the index remains fixed; Section 5.2 on p. 7 instantiates this with fixed TransE facts and learned question embeddings. Table 1 and Figure 1 on p. 8 further support empirical feasibility through 62.2% for exact 10-MIPS versus 59.5% for full softmax and similar epoch convergence. This supports a coherent constructive route, but does not establish optimization of the full-softmax objective, unbiased gradients through approximate selection, or learning without supporting-fact supervision. Your scope already prevents those extrapolations. The constructive value is sound; my empirical perspective assigns less weight to it until the approximate reader's practical savings are measured."
+    },
+    {
+      "evidence_id": "ducn-e3",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "Confirmed. Section 5.5 on p. 8 supplies approximately 20,000 accesses and labels this a 5X speedup, whereas Table 1 supplies the 108,442 full-softmax size; no elapsed-time measurements accompany that ratio. Figure 1's horizontal axis is epochs, and Table 2 on p. 9 varies from 16 to 68 convergence epochs. Section 3.1 on p. 5 counts centroid comparisons but selected facts still require scoring under Equation 4 on p. 4. Thus access reduction is established, while end-to-end acceleration after search, batching, and convergence is not. Please preserve your distinction between a missing computational demonstration and evidence against actual speedup: neither the epoch variation nor index overhead proves the method loses its advantage. The requested matched-hardware timing and a modest memory-size sweep directly address the claim without requiring every large-memory regime."
+    }
+  ]
+}

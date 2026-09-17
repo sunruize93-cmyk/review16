@@ -1,0 +1,18 @@
+{
+  "from_persona": "ducr",
+  "to_persona": "eign",
+  "checks": [
+    {
+      "evidence_id": "EIGN-2",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed: Table 1 (p. 8) gives the stated monotone 59.6, 60.6, 61.2, 62.2 percent trend as exact K decreases, against 59.5 percent full softmax; Figure 1 supports comparable convergence in epochs. This is the strongest controlled positive finding. Its decision weight should remain distinct from evidence for useful approximate retrieval: Section 5.4 (p. 7) explicitly says exact MIPS has full-softmax complexity, and Table 1 reports batch-union candidate sets rather than K candidates per training example. Your explicit one-setting and no-timing limitations are sound. Would you agree that this finding supports an interesting training-objective choice, while practical utility for the scalable approximate variant still rests on separate evidence? This is a scope distinction, not a challenge to the reported gain or a request to change the score."
+    },
+    {
+      "evidence_id": "EIGN-4",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "Confirmed: Section 5.5 (p. 8) directly connects its 5X statement to approximately 20,000 fact accesses, and Figure 1 measures epochs rather than seconds. Section 3.1 (p. 5, after Equation 8) counts centroid dot products but leaves subsequent candidate scoring out of that read-cost sentence; Table 2 (p. 9) shows convergence ranging from 16 to 68 epochs across strategies. These facts justify your narrow claim that an end-to-end speed ratio is unestablished. One qualification worth retaining is that static-memory index construction can be amortized, so its absence does not establish a large per-query cost; the decisive gap is the lack of actual complete timings and scaling measurements. We agree on the factual deficiency. Whether an exploratory contribution remains acceptable despite it is a value judgment about evidence sufficiency, not a factual contradiction."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+SYNTHETIC MINI-PAPER — Software demonstration only.
+This is the entire toy manuscript, not an excerpt from a real publication.
+
+1. Problem
+Given a nonempty array of integers, return its largest element. We propose sorting as a way to obtain a correct answer while enabling later ordered queries.
+
+2. Method
+Copy the array, apply a comparison-based mergesort, and return the last element of the sorted copy. A correct ascending sort places every element at or below the final element; hence the returned element is a maximum. The original input remains unmodified because sorting operates on the copy.
+
+3. Complexity and examples
+With an ordinary mergesort implementation, runtime is O(n log n), and auxiliary storage is O(n). For [4, 1, 0] the sorted copy is [0, 1, 4]. For [1, 4, 0] the sorted copy is also [0, 1, 4]. Both outputs are 4. The manuscript offers these exact traces and no timing measurements.
+
+4. Scope and limitations
+A linear scan solves a single maximum query with lower asymptotic time and storage. Sorting could support additional rank queries, but that broader workload is not evaluated here. No original research result or real publication outcome is asserted by this fixture.

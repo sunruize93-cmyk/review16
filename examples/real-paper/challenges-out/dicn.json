@@ -1,0 +1,18 @@
+{
+  "from_persona": "dicn",
+  "to_persona": "eugr",
+  "checks": [
+    {
+      "evidence_id": "EUGR-S2",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed with a causal-scope qualification. Table 1 (p. 8) reports 62.2% for 10-MIPS versus 59.5% for full softmax, and Figure 1 supports comparable convergence in epochs. Section 5.4 (p. 7) makes clear that training also pools candidates across the minibatch: the actual average softmax size is 1,290, not ten. Thus your interpretation as evidence for a changed training candidate distribution is sound, but exact top-K selection alone is not isolated from batch pooling and restricted renormalization. Please retain the recipe-level interpretation and do not infer that the gradient-concentration explanation in Section 3 (p. 4) has been identified. This qualification does not dispute the numerical positive result or require a theorem."
+    },
+    {
+      "evidence_id": "EUGR-W1",
+      "polarity": "negative",
+      "type": "scope",
+      "challenge": "Confirmed as a missing-evidence objection. Section 5.5 (p. 8) connects approximately 20,000 accessed facts with 5X speedup, while Tables 1-2 provide candidate counts and epochs, not wall-clock measurements. Section 3.1 (p. 5) counts centroid dot products but Equation 4 (p. 4) still requires scoring candidate facts. The observed count reduction nevertheless establishes a plausible computational route to acceleration in the fixed-memory regime; it is not no evidence of efficiency at all. Please preserve the distinction between unverified fivefold end-to-end acceleration and a refuted speedup claim. Table 2 establishes variable epoch counts across approximate strategies, but does not itself give the exact full-softmax stopping epoch or demonstrate that approximate training is slower overall."
+    }
+  ]
+}

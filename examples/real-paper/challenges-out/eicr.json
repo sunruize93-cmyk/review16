@@ -1,0 +1,18 @@
+{
+  "from_persona": "eicr",
+  "to_persona": "dugn",
+  "checks": [
+    {
+      "evidence_id": "dugn-S2",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "The positive numerical observations are confirmed: Table 1 (p. 8) gives exact 10-MIPS 62.2% versus full-softmax 59.5%, and clustering/WTA-Hash/PCA-Tree 51.5/40.2/32.4%; Figure 1 is epoch-wise, as you state. I would narrow the consequence that index choice materially affects training quality. Section 3 (p. 4) and Section 5.5 (p. 8) use approximate retrieval during both training and inference, and do not provide crossed train-index/test-index evaluations or exact inference on every trained model. The measured index gap establishes end-to-end QA differences under the respective recipes, not how much arises from the learned query encoder versus missed candidates at inference. Would you retain the strength while making that attribution explicit? This does not weaken the descriptive exact-MIPS gain or require a new baseline."
+    },
+    {
+      "evidence_id": "dugn-W1",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "I confirm this central evidence gap. The 5X statement in Section 5.5 (p. 8) follows approximately 20000 accesses relative to Table 1's 108442 full-memory cells, while Section 3.1 (p. 5) counts centroid dot products without the candidate scoring in Eq. (4), p. 4. Table 2 (p. 9) ranges from 16 to 68 convergence epochs, so accesses per query cannot alone establish total training time. This is an accounting and measurement limitation, not evidence of absent speedup, consistent with your scope. One bounded clarification to the remedy: time-to-common-accuracy should use a target reachable by both methods, and also report terminal accuracy versus total time; the approximate models peak at 53.1% versus 59.5% for full softmax (Tables 1–2), so choosing the latter target would conflate the acknowledged accuracy tradeoff with runtime. The substantive weakness is upheld."
+    }
+  ]
+}

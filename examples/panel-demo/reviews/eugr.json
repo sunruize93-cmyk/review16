@@ -1,0 +1,57 @@
+{
+  "persona_id": "eugr",
+  "model": "fixture-generator (no model execution)",
+  "model_family": "synthetic-fixture",
+  "status": "assessed",
+  "score_before": 7,
+  "score_after": 7,
+  "domain_fit": 2,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 2,
+    "novelty": 3,
+    "evidence": 1,
+    "significance": 2,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Synthetic fixture sections 1–4 inspected by fixture construction; no actual agent reading occurred.",
+    "No figures, supplementary material, experiments or external citations exist in this fictional example."
+  ],
+  "score_reason": "Fixed demonstration score, not a real judgment. This card illustrates how the Builder perspective can describe bounded evidence while keeping research preference separate from correctness.",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": true,
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "strength",
+      "claim": "A local assumption and a local conclusion are stated separately from deployment claims.",
+      "location": "Synthetic manuscript §2 and §4",
+      "observation": "Fixture text defines a two-set partition and confines its conclusion to the selected branch.",
+      "consequence": "An inspectable logical boundary is demonstrated in this interface example.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Fictional toy text only; no claim of research novelty or measured utility.",
+      "remedy": "",
+      "would_change_judgment": "In a real review, a mismatch between the partition assumption and the actual system would require revisiting the conclusion."
+    },
+    {
+      "id": "E2",
+      "kind": "weakness",
+      "claim": "The illustration cannot support a cross-context usefulness claim.",
+      "location": "Synthetic manuscript §3 and §4",
+      "observation": "The fixture contains two handcrafted inputs and explicitly supplies no benchmark, deployment result or transfer evidence.",
+      "consequence": "A broader claim would need separate evidence; the narrow stated illustration should not be penalized for a claim it does not make.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Conditional objection to a hypothetical broader claim, not an assertion that the fixture makes it.",
+      "remedy": "Keep the claim local, or define and test a concrete broader claim in an actual research project.",
+      "would_change_judgment": "A specified target setting and appropriate evidence could support the broader claim; fixed fixture scores would still not become real evaluations."
+    }
+  ],
+  "challenges": [],
+  "run_id": "00000000-0000-4000-8000-000000000016",
+  "manuscript_sha256": "06ac35c9329e946c10591610751ad633bac6931bc728c45d505c506451524697"
+}

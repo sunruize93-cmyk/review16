@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="420" viewBox="0 0 1120 420" role="img" aria-labelledby="title desc">
+<title id="title">How Review16 types are connected</title><desc id="desc">DIGN has four neighbors that each flip one axis: EIGN, DUGN, DICN and DIGR. EUCR flips all four axes and is its cross-examination partner.</desc>
+<rect width="1120" height="420" rx="24" fill="#f7f8fa"/>
+<g font-family="Inter,Arial,sans-serif" fill="#182b42">
+<text x="40" y="47" font-size="25" font-weight="700">Four neighbors. One counterpoint.</text>
+<text x="40" y="76" font-size="15" fill="#526274">A relation comes from changing preferences, not assigning unrelated disciplines.</text>
+<g fill="none" stroke="#a2b6bd" stroke-width="2"><path d="M236 252C280 252 285 140 330 140"/><path d="M236 252C280 252 285 210 330 210"/><path d="M236 252C280 252 285 280 330 280"/><path d="M236 252C280 252 285 350 330 350"/><path d="M700 250H815" stroke="#816ca9" stroke-dasharray="6 7"/></g>
+<rect x="40" y="183" width="196" height="139" rx="20" fill="#dcefe8"/>
+<text x="65" y="228" font-size="32" font-weight="800">DIGN</text><text x="65" y="258" font-size="19">Architect</text><text x="65" y="290" font-size="12" fill="#425f57">D · I · G · N</text>
+<g font-size="19" font-weight="700">
+<rect x="330" y="108" width="370" height="58" rx="14" fill="#fff"/><text x="350" y="143">EIGN</text>
+<rect x="330" y="178" width="370" height="58" rx="14" fill="#fff"/><text x="350" y="213">DUGN</text>
+<rect x="330" y="248" width="370" height="58" rx="14" fill="#fff"/><text x="350" y="283">DICN</text>
+<rect x="330" y="318" width="370" height="58" rx="14" fill="#fff"/><text x="350" y="353">DIGR</text>
+</g>
+<g font-size="14" fill="#526274"><text x="432" y="143">D → E  ·  evidence</text><text x="432" y="213">I → U  ·  contribution</text><text x="432" y="283">G → C  ·  scope</text><text x="432" y="353">N → R  ·  research risk</text></g>
+<rect x="815" y="183" width="265" height="139" rx="20" fill="#e7e1f0"/>
+<text x="840" y="228" font-size="32" font-weight="800">EUCR</text><text x="840" y="258" font-size="19">Steward</text><text x="840" y="290" font-size="13" fill="#605077">All four preferences change</text>
+<text x="815" y="352" font-size="13" fill="#605077">Counterpoint ≠ forced disagreement</text>
+</g></svg>

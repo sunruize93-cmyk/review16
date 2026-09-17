@@ -1,0 +1,18 @@
+{
+  "from_persona": "eicn",
+  "to_persona": "dugr",
+  "checks": [
+    {
+      "evidence_id": "dugr-E2",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed. Table 1 (page 8) gives the stated 59.5% versus 62.2% result and monotone approach to the baseline as K increases; Section 5.4 (page 7) explicitly discloses minibatch candidate sharing. The experiment removes approximate-index error, but it does not isolate top-K restriction from candidate sharing or identify gradient dispersion as the cause. Your scope already recognizes this distinction. I view the consistent budget trend as a meaningful exploratory observation in its own right, even without a runtime win; this is a difference in contribution weighting, not a factual correction."
+    },
+    {
+      "evidence_id": "dugr-E3",
+      "polarity": "negative",
+      "type": "value",
+      "challenge": "Confirmed as an efficiency-evidence limitation. Section 3.1 (page 5) counts centroid dot products while equations (3)-(4) also require scores for selected cells, and Section 5.5 (page 8) links the 5X claim to approximately 20000 accessed facts without reporting elapsed time. Table 2 (page 9) shows 16–68 epochs, so total training savings cannot be inferred from per-step candidate counts. I agree no realized 5X speedup is established. My narrower weighting is that this does not erase the observed selective-normalization and sampling phenomena, which can merit an exploratory contribution within the explicitly reduced fixed-memory setting. Would you regard your below-threshold judgment as chiefly requiring practical scalability evidence, rather than doubting the reported within-setting learning effect? No score change is requested."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "from_persona": "dugn",
+  "to_persona": "eicr",
+  "checks": [
+    {
+      "evidence_id": "EICR-S1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed as a reported within-model improvement: Table 1 (p. 8) gives 59.5% versus 62.2%, and Figure 1 supports similar epoch-wise convergence. One useful qualification is that this tests the complete exact-MIPS training recipe: Section 5.4 (p. 7) unions top-K candidates across each minibatch, giving 1,290 average candidates for K=10, and Section 3 (p. 4) inserts the gold fact. Thus the result establishes utility for this candidate-composition recipe, not a separately isolated benefit of query-dependent top-K truncation. Your existing restriction to exact retrieval and this fixed-memory setting is sound; would you make the recipe-level scope explicit when describing what is established?"
+    },
+    {
+      "evidence_id": "EICR-W1",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "Confirmed: Section 5.5 (p. 8) presents about 20,000 accesses as yielding 5X speedup, but Tables 1-2 provide accuracy, candidate counts, and epochs rather than measured elapsed time. Equation (4), p. 4, also requires scoring the retrieved candidates after centroid selection, so the p. 5 statement that a read requires only the number of centroid dot-products is incomplete computational accounting. This strengthens your request to include retrieval and candidate overhead. The defensible conclusion remains that end-to-end speed and scaling are unestablished, not that the method cannot be faster. From my utility/generalization perspective this is decisive evidence to request; its severity is a contribution-weighting judgment, whereas the lack of reported measurements is a manuscript fact."
+    }
+  ]
+}

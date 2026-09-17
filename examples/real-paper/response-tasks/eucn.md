@@ -1,0 +1,5 @@
+# One response: EUCN
+
+Read the incoming package challenges-out/digr.json, your frozen review round0/eucn.json and the original manuscript as needed. Respond once to each of the package's two checks. Update only reviews/eucn.json. Do not read human reviews or other personas; no external browsing.
+
+Preserve run_id, manuscript_sha256, score_before and the original evidence. Append one challenge record per incoming check with from_persona=digr, the referenced evidence_id, supplied type and exact challenge text, your response, and resolution upheld/narrowed/retracted/unresolved. Resolve against the manuscript. No automatic consensus: retain or change score_after only according to your reasoned evidence assessment, and explain in change_reason. If an evidence claim is narrowed or retracted, explain the correction in the response and score_reason; the immutable initial record stays in round0. If unchanged, say why. Do not add new challenge rounds. Return only completion and score_before → score_after.

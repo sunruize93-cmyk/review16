@@ -1,0 +1,141 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eign",
+  "model": "GPT-6 family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 6,
+  "score_after": 6,
+  "domain_fit": 4,
+  "confidence": 3,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 3,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read complete manuscript.txt, pages 1-10: abstract, Sections 1-6, all equations, Tables 1-2, Figure 1, and references.",
+    "Visually inspected page-01.png through page-10.png, including equations on pages 4-5, the validation plot and Table 1 on page 8, and Table 2 on page 9. Verified frozen manuscript.pdf SHA-256.",
+    "No supplement, code, raw measurements, historical reviews, or external cited sources inspected. Assessments concern the manuscript evidence; external priority and bibliographic accuracy were not independently verified.",
+    "Competence: memory retrieval, supervised learning, experimental comparisons; cannot certify implementation timing, gradient-bias measurements, or exact historical novelty from this manuscript alone. Retrospective ICLR 2017 rubric used; no modern baseline requirements."
+  ],
+  "score_reason": "6: Marginally above acceptance threshold under the supplied ICLR 2017 rubric. The paper establishes an intelligible supervised route for integrating approximate retrieval into memory-network learning and reports a useful, nontrivial regularity: exact top-K candidate training improves the same fixed-memory model as K decreases. The comparison of retrieval families and cluster-sampling variants provides a concrete starting point for research on learnable retrieval. From an empirical, insight-seeking, general, novelty-seeking perspective, this exploratory contribution is enough for a marginal positive judgment, but not a clear accept. The central speedup is inferred from memory accesses without end-to-end timing or a scaling curve, the suggested gradient mechanism is not isolated, and transfer beyond a single fixed-memory factoid setup is untested. These limitations bound the result rather than demonstrate a fatal correctness error. Novelty is a provisional assessment of the presented contribution and related-work discussion, not a verified priority claim. Cross-examination confirms that the exact-search gain does not establish approximate-search utility, and that missing static-index construction timing is not evidence of high per-query cost because construction can be amortized. The central timing gap and the independent learning result retain their original decision weights.",
+  "change_reason": "Unchanged at 6 after the single cross-examination response. Both checks confirm the original bounded evidence: exact restricted-candidate learning is an interesting result independent of scalable approximate retrieval, while practical acceleration remains unmeasured. Static index construction may be amortized and is not presumed expensive. No new factual correction undermines the exploratory contribution that supports the marginal positive assessment; missing complete timings and transfer evidence still prevent a stronger score.",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "EIGN-1",
+      "kind": "strength",
+      "claim": "The work gives a concrete way to learn query representations while using a discrete retrieval index over fixed external memory.",
+      "location": "Sections 2-3, pp. 3-4, Equations 2-4; Section 5.2, p. 7.",
+      "observation": "The candidate subset is selected by MIPS; softmax and backpropagation operate on that subset. The correct supporting fact is explicitly inserted at training time, and the experiment optimizes its negative log likelihood while retaining fixed TransE memory embeddings.",
+      "consequence": "This is an implementable hybrid of search and differentiable learning, with a clearly identified supervision condition, and offers a useful research direction for external-memory access.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Supervised retrieval into static memory; no claim here that discrete search is differentiable or that latent supporting facts and memory writes have been solved.",
+      "remedy": "",
+      "would_change_judgment": "A demonstrated failure of this stated training construction would lower the judgment materially."
+    },
+    {
+      "id": "EIGN-2",
+      "kind": "strength",
+      "claim": "Exact candidate restriction produces a coherent accuracy trend rather than only one favorable operating point.",
+      "location": "Section 5.4, p. 7; Table 1 and Figure 1, p. 8.",
+      "observation": "Full softmax obtains 59.5% test accuracy; K=1000,100,50,10 obtains 59.6%,60.6%,61.2%,62.2%. Figure 1 shows validation convergence over epochs for these conditions, and Table 1 reports their actual batch-union softmax sizes.",
+      "consequence": "The 2.7 percentage-point endpoint improvement and ordered trend make candidate-focused training interesting beyond its hoped-for computational saving. Reporting effective softmax sizes avoids equating K=10 with ten training negatives.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "One fixed-memory model and dataset; curves show epoch convergence, not wall-clock acceleration, and no repeated-run uncertainty is given.",
+      "remedy": "",
+      "would_change_judgment": "Yes. Replication or reversal of this trend would materially affect the empirical contribution."
+    },
+    {
+      "id": "EIGN-3",
+      "kind": "strength",
+      "claim": "The approximate-search experiments expose a useful interaction between candidate coverage and learning.",
+      "location": "Section 5.5 and Table 1, p. 8; Table 2, p. 9.",
+      "observation": "At approximately matched access budgets, clustering reaches 51.5% compared with 32.4% for PCA-Tree and 40.2% for WTA-Hash. Adding Sample-K to Top-K increases accuracy from 50.2% to 52.8% for 1000 clusters and from 51.5% to 53.1% for 2000 clusters. Sample-K alone takes 68/63 epochs, versus 31/26 for the combined strategy.",
+      "consequence": "The study moves beyond applying one existing index: it provides evidence that both index choice and stochastic candidate coverage affect learning, and that accuracy and convergence can favor different variants.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The tested retrieval configurations and two cluster counts, at one approximate access budget; this is not a universally established ranking of index families.",
+      "remedy": "",
+      "would_change_judgment": "A controlled repetition showing these comparisons are tuning artifacts would weaken the positive judgment."
+    },
+    {
+      "id": "EIGN-4",
+      "kind": "weakness",
+      "claim": "The claimed computational speedup is not established as end-to-end acceleration or empirical scaling.",
+      "location": "Section 3.1, p. 5; Section 5.5, p. 8; Tables 1-2 and Figure 1.",
+      "observation": "The stated 5X speedup is linked to roughly 20,000 fact accesses versus 108,442 total cells. There are no wall-clock measurements, hardware details, preprocessing costs, or results across memory sizes. The centroid-dot-product description on p. 5 also omits subsequent candidate scoring, while Table 2 shows substantial variation in epochs to convergence.",
+      "consequence": "Reduced candidate scoring is credible, but it does not determine training time to convergence or inference latency. This leaves the central practical scalability claim insufficiently measured.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Does not refute computational savings or demand a particular million-fact benchmark; it distinguishes an access-count ratio from measured total cost.",
+      "remedy": "Report per-query inference and training-step times, time to convergence, index construction costs, and a small memory-size sweep using a fixed experimental setup.",
+      "would_change_judgment": "Yes. Clear measured scaling at useful accuracy would support a higher score; loss of the practical saving would support a lower one."
+    },
+    {
+      "id": "EIGN-5",
+      "kind": "weakness",
+      "claim": "The proposed explanation through gradient concentration and reduced approximation bias is not isolated by the experiments.",
+      "location": "Section 3, p. 4; Section 3.1, p. 5; Sections 5.4-5.5, pp. 7-9.",
+      "observation": "The paper attributes benefits to concentrating strong gradients and calls added sampled candidates bias-reducing, but reports only task accuracy and epoch curves. K changes effective batch-union candidate size as well as candidate selection. No matched-size random-candidate comparison, gradient comparison to full softmax, or retrieval-recall trajectory is reported.",
+      "consequence": "The observed improvements are valuable, but the evidence cannot distinguish the claimed mechanism from other effects of restricted normalization, hard negatives, or candidate coverage. The general lesson is therefore less established than the prose suggests.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "This is a limit on causal/mechanistic interpretation, not a claim that the restricted-softmax objective is invalid.",
+      "remedy": "Add a matched-size candidate-selection control and one diagnostic such as supporting-fact recall or gradient discrepancy relative to full softmax; describe bias reduction as a hypothesis until measured.",
+      "would_change_judgment": "Yes. A discriminating control would strengthen the insight contribution enough to affect the score."
+    },
+    {
+      "id": "EIGN-6",
+      "kind": "weakness",
+      "claim": "The general-purpose interpretation extends beyond the demonstrated conditions.",
+      "location": "Section 4 and Section 5.1, p. 6; Sections 5.2-5.3, p. 7; Section 6, p. 9.",
+      "observation": "The experiments use only SimpleQuestions with 108,442 memory cells, bag-of-words queries, fixed concatenated TransE triples, and labeled supporting facts. The larger Freebase settings are deliberately omitted. No alternate modality, non-lexical-overlap condition, learned memory, or multi-step reasoning setting is evaluated. Section 5.4 nevertheless recommends replacing softmax by K-MIPS whenever possible.",
+      "consequence": "Applicability to any modality is structurally plausible, but transfer of the accuracy trend and training behavior has not been established. The result supports a focused supervised retrieval setting rather than a general law about attention.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Dynamic memory is explicitly future work and its absence is not itself a defect; the issue is the breadth of empirical recommendations.",
+      "remedy": "Narrow the general recommendation to the tested setting or add one deliberately different memory/query setting that tests the claimed transfer.",
+      "would_change_judgment": "A successful targeted transfer test would raise confidence; simply narrowing claims would improve accuracy of presentation without by itself removing the timing concern."
+    },
+    {
+      "id": "EIGN-7",
+      "kind": "weakness",
+      "claim": "Important configuration and uncertainty information is missing for interpreting and reproducing the smaller reported differences.",
+      "location": "Sections 3.1 and 5.3-5.5, pp. 5, 7-8; Tables 1-2.",
+      "observation": "The optimizer, learning rate, batch size, embedding sizes, and stopping rule are given, but actual U and m values, the complete retrieval hyperparameters, and details of the artificial-question construction are not specified. Each table cell is a single value with no seeds or uncertainty. Differences among the better Table 2 variants are sometimes only 0.3-0.6 percentage points.",
+      "consequence": "A reader can reconstruct the broad method but cannot determine robustness of the fine variant ranking or precisely reproduce the approximate-search operating points from the paper alone.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "This does not invalidate the much larger gaps between retrieval families or assert that the reported values are wrong.",
+      "remedy": "Supply exact index and sampling configurations, the artificial-question recipe, and repeated-seed variability for the main candidate-selection comparisons.",
+      "would_change_judgment": "Stable replication could increase confidence; the marginal score does not depend on the exact ordering of the closest variants."
+    }
+  ],
+  "challenges": [
+    {
+      "from_persona": "ducr",
+      "evidence_id": "EIGN-2",
+      "type": "scope",
+      "challenge": "Confirmed: Table 1 (p. 8) gives the stated monotone 59.6, 60.6, 61.2, 62.2 percent trend as exact K decreases, against 59.5 percent full softmax; Figure 1 supports comparable convergence in epochs. This is the strongest controlled positive finding. Its decision weight should remain distinct from evidence for useful approximate retrieval: Section 5.4 (p. 7) explicitly says exact MIPS has full-softmax complexity, and Table 1 reports batch-union candidate sets rather than K candidates per training example. Your explicit one-setting and no-timing limitations are sound. Would you agree that this finding supports an interesting training-objective choice, while practical utility for the scalable approximate variant still rests on separate evidence? This is a scope distinction, not a challenge to the reported gain or a request to change the score.",
+      "response": "Agreed. Section 5.4 (p. 7) explicitly retains full-softmax search complexity for exact K-MIPS, so Table 1 and Figure 1 support a restricted-candidate training result, not efficient approximate retrieval. The 1,290-entry average batch-union set is already included in my evidence. My positive decision weight comes from the learning trend as an independent exploratory contribution; the approximate variant must separately establish its accuracy-cost utility. The approximate-search results support a research direction but do not fill the missing timing evidence. I uphold the finding with its original bounded scope and retain the marginal positive score on that basis.",
+      "resolution": "upheld"
+    },
+    {
+      "from_persona": "ducr",
+      "evidence_id": "EIGN-4",
+      "type": "factual",
+      "challenge": "Confirmed: Section 5.5 (p. 8) directly connects its 5X statement to approximately 20,000 fact accesses, and Figure 1 measures epochs rather than seconds. Section 3.1 (p. 5, after Equation 8) counts centroid dot products but leaves subsequent candidate scoring out of that read-cost sentence; Table 2 (p. 9) shows convergence ranging from 16 to 68 epochs across strategies. These facts justify your narrow claim that an end-to-end speed ratio is unestablished. One qualification worth retaining is that static-memory index construction can be amortized, so its absence does not establish a large per-query cost; the decisive gap is the lack of actual complete timings and scaling measurements. We agree on the factual deficiency. Whether an exploratory contribution remains acceptable despite it is a value judgment about evidence sufficiency, not a factual contradiction.",
+      "response": "Agreed with the amortization qualification. Fixed memory allows index construction to be amortized across queries, and neither the manuscript nor my review establishes that construction or centroid search dominates per-query cost. Section 5.5 (p. 8) and Table 2 (p. 9) still cannot establish total speedup from access counts and epochs alone. Reporting index cost helps characterize deployment regimes, but the decisive missing evidence is complete measured training and inference cost, including the candidate operations actually performed, across memory sizes. The practical speedup remains unestablished rather than disproved. I uphold this bounded deficiency; our different acceptance-threshold assessments reflect the value assigned to the remaining exploratory empirical contribution, not a factual disagreement.",
+      "resolution": "upheld"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "from_persona": "eugn",
+  "to_persona": "dicr",
+  "checks": [
+    {
+      "evidence_id": "dicr-e1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed for the disclosed static, gold-fact-supervised setting: p.4 Equations (3)–(4) define candidate-restricted normalization, the next paragraphs insert the correct training fact and freeze memory, and Section 5.2 p.7 specifies the correct-fact NLL. The exact top-K loss is locally differentiable away from selection changes, and Table 1/Figure 1 p.8 provide empirical feasibility evidence beyond that mathematical coherence. Please retain the distinction between differentiating the conditional selected-set loss and differentiating the approximate or sampled retrieval procedure itself; neither the text nor these experiments establishes the latter. The strongest positive I infer is a trainable query-to-fixed-index interface, with a measured exact-selection accuracy gain, rather than a generally differentiable memory-access mechanism."
+    },
+    {
+      "evidence_id": "dicr-e3",
+      "polarity": "negative",
+      "type": "value",
+      "challenge": "The factual objection is sound: Section 5.5 p.8 ties 5X to approximately 20,000 fact accesses, Table 2 p.9 reports substantially differing epoch counts, and Equation (4) p.4 requires scoring selected facts in addition to the centroid computations mentioned on p.5. These do not establish wall-clock acceleration. I would qualify any implication that comparable predictive quality is required before the contribution can have utility: the stated experimental aim on p.6 is a speed–accuracy tradeoff, and a lower-accuracy operating point could be useful if actual savings and an application-relevant budget were demonstrated. Can the decisive missing evidence be framed as a measured, useful cost–accuracy frontier rather than mandatory equality with full-softmax accuracy? This preserves the major speed-evidence criticism while distinguishing an unresolved tradeoff from a demonstrated lack of utility."
+    }
+  ]
+}

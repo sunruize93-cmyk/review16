@@ -1,0 +1,97 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eigr",
+  "model": "GPT-6 family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 5,
+  "score_after": 5,
+  "domain_fit": 4,
+  "confidence": 4,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 2,
+    "evidence": 2,
+    "significance": 3,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read all ten pages of manuscript.txt, including abstract, Sections 1–6, equations 1–8, Tables 1–2, and references; visually inspected all rendered PDF pages page-01.png through page-10.png, particularly Figure 1 and the numerical tables.",
+    "Verified frozen PDF SHA-256 against the task. No supplementary material, implementation, or raw runs supplied or inspected; no empirical result rerun.",
+    "Used supplied retrospective ICLR 2017 rubric. Competence covers memory retrieval, supervised QA, and empirical evaluation; external priority and cited-source claims not independently verified. No historical human reviews, other reviewers, source directory, or coordinator conclusions consulted."
+  ],
+  "score_reason": "5 — marginally below acceptance threshold. The supervised top-K reader is technically coherent and addresses an important access bottleneck. Exact retrieval produces a useful 2.7-point gain, and comparing three approximate readers plus cluster-selection variants provides a credible initial empirical contribution. However, the central scalability result is supported by candidate-access counts without timings or a memory-size scaling experiment; the mechanism and reliability of the smaller accuracy differences are also underdetermined. For an empirical, explanatory contribution, these gaps outweigh the promising evidence. I do not require state-of-the-art QA accuracy, modern baselines, or writable memory, which the paper explicitly excludes. Novelty is assessed as a useful integration of acknowledged existing retrieval methods, without asserting external priority.",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "eigr-s1",
+      "kind": "strength",
+      "claim": "Exact top-K training gives a consistent within-setting observation that restricting normalization can improve QA accuracy without visibly slowing convergence in epochs.",
+      "location": "Sections 5.2–5.4, pp. 7–8; Table 1 and Figure 1.",
+      "observation": "The same fixed-TransE, bag-of-words query model obtains 59.5% with full softmax and 62.2%, 61.2%, 60.6%, and 59.6% for K=10,50,100,1000. Figure 1 shows similar epoch-based convergence trajectories. Section 5.4 discloses the minibatch candidate union and Table 1 reports its effective size.",
+      "consequence": "This useful controlled observation supports the feasibility of learning queries through a truncated reader and motivates the approximation study; the consistent K trend is more informative than a single favorable configuration.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "One supervised QA model with a fixed memory; the curve establishes epoch behavior, not wall-clock acceleration or a universal preference for smaller K.",
+      "remedy": "",
+      "would_change_judgment": "Replication would strengthen this foundation; failure to reproduce it would remove a major positive."
+    },
+    {
+      "id": "eigr-s2",
+      "kind": "strength",
+      "claim": "The study usefully separates exact selection from approximate search and discloses the resulting accuracy cost.",
+      "location": "Section 3 p. 4; Section 5.5 pp. 8–9; Tables 1–2.",
+      "observation": "Correct facts are explicitly added during supervised training. At about 20,000 accessed candidates, Table 1 reports clustering 51.5%, PCA-Tree 32.4%, and WTA-Hash 40.2%. Table 2 compares five cluster-selection variants with 1,000 and 2,000 clusters and gives convergence epochs. Even its best 53.1% remains below full softmax at 59.5%.",
+      "consequence": "The comparison establishes a meaningful tradeoff and supports a ranking of these configured readers while being candid about degradation. The mechanism and supervision requirements are understandable.",
+      "severity": "info",
+      "verification": "supported",
+      "scope": "Reported configurations and static-memory QA only; this does not establish universal clustering superiority or improved performance for SAM.",
+      "remedy": "",
+      "would_change_judgment": "A reproducible runtime-accuracy frontier would turn this initial comparison into a substantially stronger contribution."
+    },
+    {
+      "id": "eigr-w1",
+      "kind": "weakness",
+      "claim": "Reported evidence does not establish the end-to-end training speedup and large-memory scalability central to the paper.",
+      "location": "Contribution list p. 3; Section 3.1 p. 5; Sections 5.1 and 5.5 pp. 6 and 8; Tables 1–2 and Figure 1.",
+      "observation": "Section 5.5 derives 5X speedup from about 20,000 fact accesses versus 108,442 entries. No elapsed training or inference times, hardware, index-building costs, or timings across memory sizes are reported. Figure 1 uses epochs; Table 2 shows convergence ranging from 16 to 68 epochs. Section 5.1 omits the 10M/12M-fact alternatives. Section 3.1's statement that reading requires only centroid dot products also omits selected-fact scoring that appears in the later access accounting.",
+      "consequence": "Candidate reduction is supported, but search, candidate-union construction, selected-fact scoring, and changed convergence all contribute to elapsed time. Large-memory scalability remains plausible rather than empirically established over growing memories.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Missing measurement of a central claim, not evidence that the implementation is slow or that approximate retrieval cannot scale.",
+      "remedy": "Report per-epoch and total time to a declared validation target, inference latency, hardware, and index-building cost; add a memory-size sweep and distinguish access-count speedup from elapsed-time speedup.",
+      "would_change_judgment": "Measured speed-accuracy advantages persisting as memory grows could move the recommendation above threshold."
+    },
+    {
+      "id": "eigr-w2",
+      "kind": "weakness",
+      "claim": "The experiments do not identify the proposed gradient-bias mechanism or establish reliability of small strategy differences.",
+      "location": "Section 3 pp. 4–5; Sections 5.4–5.5 and Tables 1–2 pp. 7–9.",
+      "observation": "The manuscript attributes exact-selection benefits to concentrating gradients and says sharing and sampling decrease approximation bias. It reports no gradient comparison, retrieval-recall diagnostic, or matched-size random-candidate control. All exact K-MIPS models share candidates across the minibatch. Table 2 provides no repeated-run variability; Top-K plus Sample-K exceeds Sample-K alone by only 0.3 points for either cluster count.",
+      "consequence": "The evidence cannot separate the proposed mechanism from candidate diversity, hard-negative effects, or changing the training objective. The combined strategy is numerically best, but its small accuracy margin is not shown to be dependable. This limits explanatory insight without invalidating the larger observed differences.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Mechanistic attribution and fine-grained strategy rankings within this task; no assertion that reported gains are statistically absent.",
+      "remedy": "Use a matched-size candidate control, measure important-candidate recall or gradient discrepancy against exact/full computation on a subset, and repeat key runs; alternatively mark the bias explanation as a hypothesis and narrow the ranking claim.",
+      "would_change_judgment": "A discriminating control plus stable repeated-run gains would materially improve the explanation and reliability case."
+    },
+    {
+      "id": "eigr-w3",
+      "kind": "weakness",
+      "claim": "Several settings needed to reproduce the approximate-method comparison are missing from the manuscript.",
+      "location": "Sections 3.1, 5.3, and 5.5, pp. 5, 7–8.",
+      "observation": "Optimizer, learning rate, batch size, embedding dimension, and cluster counts are specified, but chosen U and m, numbers of top and sampled clusters, and final WTA-Hash/PCA-Tree settings are not. Artificial questions are mentioned without a construction recipe here, and the fixed TransE embeddings' training provenance is not fully specified.",
+      "consequence": "The broad method is implementable, but the reported tradeoff cannot be faithfully reconstructed or its tuning comparability assessed from the manuscript.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility from the supplied manuscript; uninspected code or supplementary material might resolve these omissions.",
+      "remedy": "Provide a compact configuration table, candidate-selection pseudocode, fixed-embedding provenance, and artificial-question recipe.",
+      "would_change_judgment": "This would improve reproducibility and confidence but would not alone resolve missing scalability evidence."
+    }
+  ],
+  "challenges": []
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review16"
+  short_description: "Sixteen AI/ML review perspectives with evidence and blind anchors"
+  default_prompt: "Use $review16 to review my AI/ML manuscript with 16 independent perspectives and report supported disagreements, individual scores, and historical positioning where public anchors permit."

@@ -1,0 +1,18 @@
+{
+  "from_persona": "eucr",
+  "to_persona": "dign",
+  "checks": [
+    {
+      "evidence_id": "dign-e1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed within the stated supervised static-memory scope: Equations 3–4 on page 4 give a coherent search-selected normalization interface, the following paragraphs explicitly insert the gold fact and keep memory fixed, and page 6 distinguishes this from hierarchical-softmax factorization. From a utility/reliability perspective, reusable should describe this mathematical interface rather than a demonstrated general operating benefit: Sections 5.2–5.3 on page 7 test only a bag-of-words query encoder with fixed TransE memory. The positive architectural judgment is sound; the claim that it is consequential beyond this setting remains a research-value judgment, not an empirical finding."
+    },
+    {
+      "evidence_id": "dign-e4",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "Confirmed as a missing-evidence claim. Section 5.5 on page 8 calls budgets approximately matched in speed but provides only approximately 20,000 fact accesses and the resulting 5X assertion; Figure 1 uses epochs rather than elapsed time, and Table 2 on page 9 varies from 16 to 68 epochs. Page 5 counts centroid comparisons while candidate scoring remains necessary under Equation 4. Thus the manuscript does not establish end-to-end acceleration. One qualification to the proposed remedy: time to a specified validation accuracy is meaningful only for an accuracy that both methods attain, given 53.1% best approximate versus 59.5% full-softmax test performance. Reporting time-to-convergence plus an accuracy–time frontier would preserve the actual tradeoff without presuming equal-quality convergence."
+    }
+  ]
+}

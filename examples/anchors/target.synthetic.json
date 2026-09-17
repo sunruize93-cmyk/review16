@@ -1,0 +1,8 @@
+{
+  "schema": "review16.target.v1",
+  "synthetic": true,
+  "id": "synthetic-target",
+  "blinded_text_path": "texts/target.synthetic.txt",
+  "blinding_checked": true,
+  "material_level": "fulltext"
+}

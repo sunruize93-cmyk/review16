@@ -1,0 +1,97 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eicn",
+  "model": "GPT-6 family Codex; exact deployment identifier unavailable",
+  "model_family": "GPT-6",
+  "status": "assessed",
+  "score_before": 6,
+  "score_after": 6,
+  "domain_fit": 4,
+  "confidence": 3,
+  "dimensions": {
+    "correctness": 3,
+    "novelty": 3,
+    "evidence": 2,
+    "significance": 3,
+    "reproducibility": 2,
+    "clarity": 3
+  },
+  "reading_coverage": [
+    "Read the complete frozen manuscript text, pages 1–10: abstract; Sections 1–6; equations 1–8; model and training details; Tables 1–2; Figure 1; references.",
+    "Visually inspected every supplied page image, page-01.png through page-10.png, with particular attention to equations on pages 4–5, Figure 1 and Table 1 on page 8, and Table 2 on page 9. Verified frozen PDF SHA-256.",
+    "No supplement, code, raw measurements, external cited papers, historical human reviews, or other panel reviews were inspected. Algorithmic and experimental competence covers memory retrieval and QA; historical priority and implementation-level performance remain unverified. Assessment uses the supplied retrospective ICLR 2017 rubric, not present-day baseline expectations."
+  ],
+  "score_reason": "Marginally above the ICLR 2017 acceptance threshold. The valuable observation is that a reader trained against its currently high-scoring candidates can outperform full normalization in a controlled, fixed-memory QA model, and that stochastic cluster coverage partly repairs approximate retrieval. Together these establish an interesting research direction with useful within-setting comparisons, without requiring state-of-the-art QA. The evidence is preliminary: computation counts do not establish end-to-end speedup, and the proposed gradient-bias explanation is not measured. These limitations prevent a clear acceptance recommendation. No decisive correctness failure is established.",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [
+    {
+      "id": "eicn-s1",
+      "kind": "strength",
+      "claim": "Exact top-scoring candidate training yields an informative accuracy trend in the deliberately simple QA model.",
+      "location": "Sections 5.2–5.4; Table 1 and Figure 1, pages 7–8.",
+      "observation": "With fixed TransE fact embeddings and learned bag-of-words question embeddings, full softmax scores 59.5%, versus 62.2%, 61.2%, 60.6%, and 59.6% for K=10,50,100,1000. The displayed validation-error curves converge on a similar epoch scale. Actual training sets include minibatch candidate unions; K=10 averages 1290 candidates.",
+      "consequence": "A consistent trend across candidate budgets makes selective normalization an interesting empirical phenomenon, not merely an assertion that fewer candidates cost less.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Reported runs on the restricted SimpleQuestions memory; epoch convergence, not elapsed-time convergence.",
+      "remedy": "",
+      "would_change_judgment": "Evidence that the gain disappears under repeated matched runs would materially weaken the central empirical contribution."
+    },
+    {
+      "id": "eicn-s2",
+      "kind": "strength",
+      "claim": "The approximate-search study exposes a useful interaction between retrieval coverage and learning.",
+      "location": "Section 5.5, Table 1 page 8 and Table 2 page 9.",
+      "observation": "At approximately comparable candidate-access budgets, clustering reaches 51.5%, WTA-Hash 40.2%, and PCA-Tree 32.4%. Adding Sample-K to Top-K raises accuracy from 50.2% to 52.8% for 1000 clusters and from 51.5% to 53.1% for 2000 clusters. Sample-K alone needs 68/63 epochs, while the combination needs 31/26.",
+      "consequence": "The results suggest a concrete research possibility: balancing exploitation and additional cluster coverage can improve approximate-reader training, with convergence cost reported rather than hidden.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "The particular three retrieval implementations and two clustering configurations studied; not a universal ranking of indexes or proof of gradient-bias reduction.",
+      "remedy": "",
+      "would_change_judgment": "Matched repeat runs and retrieval-recall diagnostics would strengthen this observation."
+    },
+    {
+      "id": "eicn-w1",
+      "kind": "weakness",
+      "claim": "The main practical scalability claim is supported by reduced memory accesses but not demonstrated as an end-to-end training speedup.",
+      "location": "Sections 3.1 and 5.5, pages 5 and 8; Table 2 page 9.",
+      "observation": "Section 5.5 derives a 5X speedup from roughly 20000 fact accesses versus the 108442 full-softmax entries. No hardware, wall-clock training or query time, index construction time, or increasing-memory-size experiment is reported. Table 2 also shows strategy-dependent convergence epochs. The best approximate accuracy is 53.1%, versus 59.5% for full softmax.",
+      "consequence": "The manuscript establishes a candidate-access/accuracy tradeoff, but the actual time-to-quality benefit and behavior on much larger memories remain uncertain; these are central to its stated motivation.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Empirical systems-performance evidence; this does not refute the computational benefit of accessing fewer facts.",
+      "remedy": "Report elapsed training and inference times including index costs, and one larger-memory condition; distinguish per-step savings from time to convergence.",
+      "would_change_judgment": "A reproducible favorable time-to-quality tradeoff would move the recommendation toward clear acceptance."
+    },
+    {
+      "id": "eicn-w2",
+      "kind": "weakness",
+      "claim": "The explanatory claims about gradient dispersion and approximation bias run ahead of the measurements.",
+      "location": "Section 3 page 4; Section 3.1 page 5; Sections 5.4–5.5 and Tables 1–2.",
+      "observation": "The text attributes improved training to concentrating gradients and says sampling decreases approximation bias. Experiments report accuracy, candidate counts, validation curves, and epochs, but no gradient comparison or retrieval recall. Candidate truncation, compulsory inclusion of the correct fact, and minibatch union jointly change the training objective and negative distribution. No repeated-run variability is reported.",
+      "consequence": "The direction of the empirical effects is useful, but the claimed mechanism and reliability of the small 0.3-point advantage of combined sampling over sampling alone are unresolved. This limits the depth of insight rather than showing the reader is invalid.",
+      "severity": "major",
+      "verification": "supported",
+      "scope": "Mechanistic interpretation within the fixed-memory supervised model, especially close Table 2 comparisons.",
+      "remedy": "Compare gradients or retrieval recall against exact retrieval on held-out minibatches; isolate minibatch union and sampling, and report repeat-run variability for close comparisons.",
+      "would_change_judgment": "A direct mechanism diagnostic would strengthen the insight contribution; uncertainty that reverses the main accuracy trend would lower it."
+    },
+    {
+      "id": "eicn-w3",
+      "kind": "weakness",
+      "claim": "Important experimental choices for the approximate reader are insufficiently specified for close reproduction.",
+      "location": "Sections 3.1 and 5.3–5.5, pages 5 and 7–8.",
+      "observation": "Adam rate, batch size, embedding size, and stopping rule are given, but the selected U and augmentation m, hash parameters, tree settings, allocation between top and sampled clusters, and exact synthetic-question construction are not specified in the inspected manuscript.",
+      "consequence": "The broad method can be reconstructed, but reproducing the reported method ranking and sampling tradeoff would require additional choices.",
+      "severity": "minor",
+      "verification": "supported",
+      "scope": "Reproducibility from the supplied manuscript alone; code availability was not checked.",
+      "remedy": "Provide final configurations, data-preparation details, and precise candidate-union/sampling pseudocode.",
+      "would_change_judgment": "Complete configurations would improve confidence but are unlikely alone to change the venue score."
+    }
+  ],
+  "challenges": []
+}

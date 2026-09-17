@@ -1,0 +1,18 @@
+{
+  "from_persona": "dicr",
+  "to_persona": "eugn",
+  "checks": [
+    {
+      "evidence_id": "eugn-s1",
+      "polarity": "positive",
+      "type": "scope",
+      "challenge": "Confirmed under your stated fixed-memory scope: Section 3 (p.4) inserts the gold fact during training, and Table 1/Figure 1 (p.8) support the reported 62.2% versus 59.5% accuracy and comparable epoch-wise convergence. One qualification should remain explicit when calling this top-K-conditioned learning: Section 5.4 (p.7) unions candidate sets across the minibatch, and Table 1 reports an average softmax size of 1,290 for 10-MIPS, rather than 10. Thus the controlled observation supports the complete truncation-plus-minibatch-union protocol; it does not isolate the causal benefit of top-10 selection alone or establish the gradient-dispersion explanation on p.4. Do you agree this narrows attribution without detracting from the reported gain or feasibility result?"
+    },
+    {
+      "evidence_id": "eugn-w1",
+      "polarity": "negative",
+      "type": "factual",
+      "challenge": "Confirmed: Section 5.5 (p.8) links 5X to approximately 20,000 fact accesses, and Table 2 (p.9) lists 16-68 epochs without end-to-end timings. Section 3.1 (p.5) additionally counts only centroid dot products when describing a read, whereas Equation (4) on p.4 still requires selected-fact scoring and normalization. These facts justify your distinction between reduced candidate work and unverified practical speedup. I would retain your explicit caveat that this is missing substantiation, not evidence of no acceleration. A scaling curve across memory sizes is an appropriate remedy, but its exact breadth is an evidentiary preference rather than a formal requirement or an identified algorithmic defect; a sufficiently clear timed operating point could also substantiate a narrower efficiency claim."
+    }
+  ]
+}

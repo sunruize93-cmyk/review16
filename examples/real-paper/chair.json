@@ -1,0 +1,31 @@
+{
+  "synthetic": false,
+  "meta_review": "Retrospective assessment of the archived ICLR 2017 manuscript: a coherent and promising way to train query representations through search-selected softmax over a fixed external memory. Exact candidate restriction improves reported QA accuracy from 59.5% to 62.2%, and the approximate-retrieval ablations expose a useful exploration tradeoff. The principal limitation is that reduced candidate counts do not establish the claimed end-to-end training speedup: retrieval/index overhead, hardware, time to a stated accuracy and memory-size scaling are not measured. This is missing support for a central practical claim, not a verified fatal error in the learning method. My assessment is marginally below threshold until that evidence is supplied or the contribution is framed more narrowly as an exploratory study. The two marginal-positive reviews can reasonably value the preliminary empirical insight more highly; they are not factual errors to average away. This single historical case does not validate Review16 accuracy, acceptance prediction or type separability. Historical human scores were withheld from reviewer contexts, but known to the coordinator, so chair independence from those outcomes is not claimed.",
+  "priority_actions": [
+    "Measure the actual compute\u2013accuracy tradeoff: include retrieval/index construction, per-step and inference time, time to a common attainable validation quality, stated hardware and a small memory-size sweep. Candidate counts alone do not demonstrate 5X elapsed-time speedup.",
+    "Separate empirical patterns from mechanism claims: compare candidate-budget-matched selection controls or measure the proposed gradient discrepancy; otherwise describe gradient concentration and bias reduction as hypotheses.",
+    "Make the tested setting reproducible and explicit: fixed TransE memory, supporting-fact supervision, union-of-minibatch candidates, sampling and retrieval parameters, artificial-question construction and variability of the main comparisons. Dynamic memory and unrelated tasks are optional extensions."
+  ],
+  "disagreements": [
+    {
+      "type": "factual",
+      "statement": "All checked reviewers distinguish reported candidate-count reduction from unmeasured end-to-end runtime. Centroid selection, candidate scoring, batching and convergence epochs all matter; static index construction may be amortized. No verified claim that the method cannot accelerate training is established.",
+      "status": "Shared manuscript facts upheld; end-to-end speed remains unverified."
+    },
+    {
+      "type": "scope",
+      "statement": "The exact-K accuracy gain belongs to the full supervised candidate-restriction recipe, including gold-fact insertion and minibatch candidate unions. It is not a literal ten-candidate normalization experiment and does not isolate gradient concentration as the cause.",
+      "status": "Interpretations narrowed or explicitly reaffirmed in cross-examination; original observations preserved."
+    },
+    {
+      "type": "value",
+      "statement": "EIGN versus DUCR, and EICN versus DUGR, agree on the missing practical-speed evidence but differ on whether the exploratory learning phenomenon is sufficient for marginal acceptance.",
+      "status": "The 6-versus-5 preference difference remains; no forced consensus or arithmetic verdict."
+    },
+    {
+      "type": "scope",
+      "statement": "The paper deliberately uses fixed memory and supporting-fact supervision. Dynamic memory, state-of-the-art QA and unrelated tasks are not mandatory correctness requirements. A common attainable quality target is needed for fair timing comparisons.",
+      "status": "Remedies limited to evidence needed by the central claims; optional extensions remain optional."
+    }
+  ]
+}

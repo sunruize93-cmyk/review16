@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "meta_review": "Fictional synthesis: the example distinguishes an explicit local argument from unsupported general usefulness. The review cards show how preferences can differ while sharing the same evidence and correctness standard. These scores were written as fixtures; no review panel ran.",
+  "priority_actions": [
+    "Keep the central claim within the conditions actually established.",
+    "For any broader usefulness claim, identify a concrete setting and the evidence it would require.",
+    "Preserve the initial assessment and explain every scope-related revision."
+  ],
+  "disagreements": [
+    {
+      "type": "scope",
+      "statement": "Illustrative enthusiasm should not be read as evidence of generality.",
+      "status": "narrowed in the fictional challenge record"
+    }
+  ]
+}

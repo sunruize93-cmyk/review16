@@ -1,0 +1,27 @@
+{
+  "run_id": "3b880acd-cd42-44a0-a518-c37d78d410df",
+  "manuscript_sha256": "688418c90285c0d245ae00e4a2feb161da67be95c220da4ff1ec6ea35b2822db",
+  "persona_id": "eign",
+  "model": null,
+  "model_family": null,
+  "status": "insufficient_evidence",
+  "score_before": null,
+  "score_after": null,
+  "domain_fit": null,
+  "confidence": null,
+  "dimensions": {
+    "correctness": null,
+    "novelty": null,
+    "evidence": null,
+    "significance": null,
+    "reproducibility": null,
+    "clarity": null
+  },
+  "reading_coverage": [],
+  "score_reason": "",
+  "change_reason": "",
+  "recognized_paper": false,
+  "synthetic": false,
+  "evidence": [],
+  "challenges": []
+}
